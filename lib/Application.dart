@@ -39,6 +39,7 @@ class Application extends StatelessWidget {
       ),
       themeMode: ThemeMode.dark,
       darkTheme: applicationTheme.data,
+      debugShowCheckedModeBanner: false,
     );
   }
 } 

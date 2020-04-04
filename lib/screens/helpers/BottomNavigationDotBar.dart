@@ -40,7 +40,7 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
         elevation: 5,
         borderRadius: BorderRadius.only(topRight: Radius.circular(50.0),topLeft: Radius.circular(40.0)),
         child: Container(
-          padding: EdgeInsets.symmetric(vertical: 12),
+          padding: EdgeInsets.symmetric(vertical: 8),
           decoration: BoxDecoration(
             color: Theme.of(context).canvasColor,
             borderRadius: BorderRadius.only(topRight: Radius.circular(40.0),topLeft: Radius.circular(40.0)),
