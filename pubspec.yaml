@@ -1,0 +1,36 @@
+name: datav8
+description: A new Flutter project.
+
+version: 1.0.0+1
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  meta: ^1.1.8
+  equatable: ^1.1.1
+  flutter_bloc: ^3.2.0
+  dart_graphql: ^0.3.5
+  percent_indicator: ^1.0.15
+  provider: ^4.0.4
+  flutter:
+    sdk: flutter
+
+  cupertino_icons: ^0.1.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+flutter:
+  uses-material-design: true
+
+  fonts:
+    - family : Popins
+      fonts:
+        - asset: assets/font/Poppins-Regular.ttf
+          weight: 400
+        - asset: assets/font/Poppins-SemiBold.ttf
+          weight : 600
+  
