@@ -9,6 +9,10 @@ environment:
 dependencies:
   meta: ^1.1.8
   equatable: ^1.1.1
+  carousel_pro: ^1.0.0
+  flutter_sparkline: ^0.1.0
+  flutter_staggered_grid_view: ^0.3.0
+  shimmer: ^1.1.1
   flutter_bloc: ^3.2.0
   dart_graphql: ^0.3.5
   provider: ^4.0.4
@@ -32,4 +36,10 @@ flutter:
           weight: 400
         - asset: assets/font/Poppins-SemiBold.ttf
           weight : 600
+
+  assets:
+    - assets/image/banner/banner1.png
+    - assets/image/banner/banner2.png
+    - assets/image/banner/banner3.jpg
+    - assets/image/banner/banner4.png
   

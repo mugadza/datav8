@@ -12,7 +12,7 @@ class ApplicationRepository {
 
   Future<GetHomeDataOperationResult> getHomeData() async {
     const String imei = "8868926026201686";
-    const int eventCount = 50;
+    const int eventCount = 10;
 
     Map<String, String> header = {
       "Content-Type": "application/json"
