@@ -16,7 +16,7 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
   GlobalKey _keyBottomBar = GlobalKey();
   double _numPositionBase, _numDifferenceBase, _positionLeftIndicatorDot;
   int _indexPageSelected = 0;
-  Color _color, _activeColor;
+  Color _activeColor;
 
   @override
   void initState() {
@@ -25,7 +25,6 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
   }
 
   _afterLayout(_) {
-    _color = widget.color ?? Theme.of(context).hintColor;
     _activeColor = widget.activeColor ?? Theme.of(context).primaryColor;
     final sizeBottomBar = (_keyBottomBar.currentContext.findRenderObject() as RenderBox).size;
     _numPositionBase = ((sizeBottomBar.width / widget.items.length));
@@ -78,7 +77,7 @@ class _BottomNavigationDotBarState extends State<BottomNavigationDotBar>{
   List<_NavigationIconButton> _createNavigationIconButtonList(Map<int, BottomNavigationDotBarItem> mapItem){
     List<_NavigationIconButton> children = List<_NavigationIconButton>();
     mapItem.forEach((index, item) =>
-        children.add(_NavigationIconButton(item.icon, (index == _indexPageSelected) ? _activeColor : _color,item.onTap,() { _changeOptionBottomBar(index); }))
+        children.add(_NavigationIconButton(item.icon,item.onTap,() { _changeOptionBottomBar(index); }))
     );
     return children;
   }
@@ -102,11 +101,10 @@ class BottomNavigationDotBarItem{
 class _NavigationIconButton extends StatefulWidget {
 
   final IconData _icon;
-  final Color _colorIcon;
   final NavigationIconButtonTapCallback _onTapInternalButton;
   final NavigationIconButtonTapCallback _onTapExternalButton;
 
-  const _NavigationIconButton(this._icon, this._colorIcon, this._onTapInternalButton, this._onTapExternalButton, {Key key}): super(key: key);
+  const _NavigationIconButton(this._icon, this._onTapInternalButton, this._onTapExternalButton, {Key key}): super(key: key);
 
   @override
   _NavigationIconButtonState createState() => _NavigationIconButtonState();

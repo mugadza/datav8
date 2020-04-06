@@ -26,11 +26,11 @@ class Application extends StatelessWidget {
               ..add(ApplicationStartedEvent());
             },
           ),
-          // BlocProvider<HomeBloc>(
-          //   create: (context) => HomeBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
-          //     applicationRepository: ApplicationRepository(graphQLConfiguration: GraphQLConfiguration())
-          //   ),
-          // ),
+          BlocProvider<HomeBloc>(
+            create: (context) => HomeBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
+              applicationRepository: ApplicationRepository(graphQLConfiguration: GraphQLConfiguration())
+            ),
+          ),
           BlocProvider<BottomNavigationBloc>(
             create: (context) => BottomNavigationBloc(homeBloc: "BlocProvider.of<HomeBloc>(context)"),
           )
