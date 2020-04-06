@@ -1,0 +1,1 @@
+export './queries/HomeDataQueries.graphql.dart';
