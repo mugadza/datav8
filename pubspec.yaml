@@ -40,6 +40,13 @@ flutter:
   assets:
     - assets/image/banner/banner1.png
     - assets/image/banner/banner2.png
-    - assets/image/banner/banner3.jpg
+    - assets/image/banner/banner3.png
     - assets/image/banner/banner4.png
+    - assets/image/icon/notification.png
+    - assets/image/icon/creditAcount.png
+    - assets/image/icon/chat.png
+    - assets/image/icon/setting.png
+    - assets/image/icon/callcenter.png
+    - assets/image/icon/aboutapp.png
+    - assets/avatars/avatar-7.png
   

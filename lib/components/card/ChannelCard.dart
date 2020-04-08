@@ -55,7 +55,7 @@ class ChannelCard extends StatelessWidget {
                         children: <Widget>[
                           Text(
                             item.latestChannelValue,
-                            style: TextStyle(color: item.chartColor, fontFamily: "Gotik", fontSize: 11.0),
+                            style: TextStyle(color: item.chartColor, fontFamily: "Popins", fontSize: 11.0),
                           ),
                           Icon((item.monitoringActive) ? Icons.radio_button_checked : Icons.radio_button_unchecked, size: 13, color: item.chartColor),
                         ],

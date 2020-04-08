@@ -1,3 +1,4 @@
+import 'package:datav8/blocs/models/home/GetHomeDataOperationResult.dart';
 import 'package:flutter/material.dart';
 
 class ChannelCardConfiguration {
@@ -5,6 +6,7 @@ class ChannelCardConfiguration {
   bool monitoringActive;
   Color chartColor;
   List<Color> chartColorGradient;
-  var data;
-  ChannelCardConfiguration({this.name,this.data,this.chartColor,this.latestChannelValue,this.monitoringActive,this.chartColorGradient});
+  List<dynamic> data;
+  List<EventNode> events;
+  ChannelCardConfiguration({this.name, this.data, this.chartColor, this.latestChannelValue, this.monitoringActive, this.chartColorGradient, this.events});
 }

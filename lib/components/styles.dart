@@ -30,7 +30,7 @@ class ApplicationTextStyle{
   );
   
   static final descriptionStyle = TextStyle(
-    fontFamily: "Sans",
+    fontFamily: "Popins",
     fontSize: 15.0,
     color: Colors.white70,
     fontWeight: FontWeight.w400

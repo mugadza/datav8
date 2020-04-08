@@ -2,6 +2,7 @@ import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/screens/helpers/helpers.dart';
 import 'package:datav8/screens/tabs/HomeTab.dart';
+import 'package:datav8/screens/tabs/ProfileTab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -35,9 +36,7 @@ class DashboardScreen extends StatelessWidget {
         );
 
       case ApplicationTab.PROFILE:
-        return Center(
-          child: Text("PROFILE"),
-        );
+        return ProfileTab();
 
       default:
         // Error screen

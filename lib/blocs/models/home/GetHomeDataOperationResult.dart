@@ -263,6 +263,9 @@ class EventNode extends MapObject {
   double get ch5 => map["ch5"] as double;
   set ch5(double value) => map["ch5"] = value;
 
+  DateTime get deviceTimeDate => (map["deviceTimeDate"] is DateTime) ? map["deviceTimeDate"]:DateTime.parse(map["deviceTimeDate"] as String);
+  set deviceTimeDate(DateTime value) => map["deviceTimeDate"] = value;
+
   static EventNode fromMap(Map<String, dynamic> map, [bool deepCopy = false]) {
     if (map == null) return null;
     if (deepCopy) map = jsonDecode(jsonEncode(map)) as Map<String, dynamic>;

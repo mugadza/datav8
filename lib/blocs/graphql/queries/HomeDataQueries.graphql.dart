@@ -43,6 +43,7 @@ class HomeDataQueries {
                     ch3
                     ch4
                     ch5
+                    deviceTimeDate
                   }
                 }
                 pageInfo{
