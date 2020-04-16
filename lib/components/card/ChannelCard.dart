@@ -50,14 +50,12 @@ class ChannelCard extends StatelessWidget {
                     Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
                             item.latestChannelValue,
                             style: TextStyle(color: item.chartColor, fontFamily: "Popins", fontSize: 11.0),
                           ),
-                          Icon((item.monitoringActive) ? Icons.radio_button_checked : Icons.radio_button_unchecked, size: 13, color: item.chartColor),
                         ],
                       ),
                     )

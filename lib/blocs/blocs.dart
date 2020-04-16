@@ -2,6 +2,7 @@
 export 'helpers/ApplicationDelegate.dart';
 export './helpers/ApplicationRepository.dart';
 export './helpers/GraphQLConfiguration.dart';
+export './helpers/UserRepository.dart';
 
 // Application bloc
 export './application/ApplicationBloc.dart';
@@ -19,3 +20,13 @@ export './theme/ApplicationThemeBloc.dart';
 export './home/HomeBloc.dart';
 export './home/HomeEvents.dart';
 export './home/HomeStates.dart';
+
+// Authentication bloc
+export './authentication/AuthenticationBloc.dart';
+export './authentication/AuthenticationEvents.dart';
+export './authentication/AuthenticationStates.dart';
+
+// Sign in
+export './signin/SigninBloc.dart';
+export './signin/SigninEvents.dart';
+export './signin/SigninStates.dart';

@@ -1,4 +1,7 @@
+import 'package:datav8/blocs/blocs.dart';
+import 'package:datav8/screens/tabs/helpers/WaveAppBar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileTab extends StatefulWidget {
   ProfileTab({Key key}) : super(key: key);
@@ -13,38 +16,10 @@ class _ProfileTabState extends State<ProfileTab> {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            Stack(
-              children: <Widget>[
-                ///
-                /// Create wave appbar
-                ///
-                ClipPath(
-                  child: Container(
-                    height: 220.0,
-                    width: double.infinity,
-                    decoration: BoxDecoration(
-                      gradient: LinearGradient(colors: [Color(0xFF15EDED), Color(0xFF029CF5)])
-                    ),
-                  ),
-                  clipper: BottomWaveClipper(),
-                ),
-
-                ///
-                /// Get triangle widget
-                ///
-                _triangle(20.0, 10.0),
-                _triangle(110.0, 80.0),
-                _triangle(50.0, 190.0),
-                _triangle(40.0, 300.0),
-                _triangle(160.0, 330.0),
-
-                ///
-                /// Create profile
-                ///
-                Padding(padding: EdgeInsets.only(top: 72.0, left: 22.0), child: profile()),
-
-              ],
-            ),
+            ///
+            /// Add the wave app bar at the top
+            ///
+            WaveAppBar(child: profile(), height: 220.0),
 
             ///
             /// Create list for category
@@ -84,17 +59,27 @@ class _ProfileTabState extends State<ProfileTab> {
                 // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_callCenter()));
               },
             ),
-            _line(context),
-            Padding(padding: EdgeInsets.only(bottom: 20.0)),
+
+            Padding(
+              padding: const EdgeInsets.only(top: 30.0),
+              child: Divider(
+                color: Theme.of(context).hintColor,
+                height: 1.0,
+              ),
+            ),
+            _logout(context)
           ],
         ),
       ),
     );
   }
 
+  ///
+  /// Create line devider widget
+  ///
   Widget _line(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(top: 30.0, left: 85.0, right: 30.0),
+      padding: const EdgeInsets.only(top: 30.0),
       child: Divider(
         color: Theme.of(context).hintColor,
         height: 2.0,
@@ -103,20 +88,50 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   ///
-  /// Create triangle 
+  /// Create logout action
   ///
-  Widget _triangle(double top, left) {
+  Widget _logout(BuildContext cxt){
     return Padding(
-      padding: EdgeInsets.only(top: top, left: left),
-      child: ClipPath(
+      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
+      child: InkWell(
+        onTap: (){
+          BlocProvider.of<SigninBloc>(cxt).add(SignoutButtonPressedEvent());
+        },
         child: Container(
-          height: 40.0,
-          width: 40.0,
-          color: Colors.white12.withOpacity(0.2),
+          height: 50.0,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.all(Radius.circular(50.0)),
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.blueGrey, Colors.blueGrey]
+            )
+          ),
+          child: Center(
+            child: Text("Sign Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.0, letterSpacing: 1.0)),
+          ),
         ),
-        clipper: TriangleClipper(),
       ),
     );
+    
+    
+    
+    // Padding(
+    //   padding: EdgeInsets.only(top: 37.5, right: 15.0),
+    //   child: Row(
+    //     mainAxisAlignment: MainAxisAlignment.end,
+    //     children: <Widget>[
+    //       InkWell(
+    //         child: Icon(Icons.power_settings_new, size: 27),
+    //         onTap: (){
+    //           BlocProvider.of<SigninBloc>(cxt).add(SignoutButtonPressedEvent());
+    //           print("----------------------------Logout-------------------------");
+    //         },
+    //       )
+    //     ]
+    //   ),
+    // );
   }
 
   ///
@@ -131,15 +146,12 @@ class _ProfileTabState extends State<ProfileTab> {
           height: 53.0,
           width: 53.0,
           decoration: BoxDecoration(
-              borderRadius: BorderRadius.all(Radius.circular(100.0)),
-              border: Border.all(color: Colors.white, width: 2.0),
-              image: DecorationImage(
-                  image: AssetImage("assets/avatars/avatar-7.png"),
-                  fit: BoxFit.cover)),
+            borderRadius: BorderRadius.all(Radius.circular(100.0)),
+            border: Border.all(color: Colors.white, width: 2.0),
+            image: DecorationImage(image: AssetImage("assets/avatars/avatar-7.png"), fit: BoxFit.cover)
+          ),
         ),
-        SizedBox(
-          width: 15.0,
-        ),
+        SizedBox(width: 15.0),
         Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -147,71 +159,25 @@ class _ProfileTabState extends State<ProfileTab> {
             Text(
               "Mbele Lebohang",
               style: TextStyle(
-                  fontFamily: "Popins",
-                  fontWeight: FontWeight.w700,
-                  fontSize: 17.0,
-                  color: Colors.white),
+                fontFamily: "Popins",
+                fontWeight: FontWeight.w700,
+                fontSize: 17.0,
+                color: Colors.white
+              ),
             ),
             Text(
               "lebohang.mbele@alumni.uct.ac.za",
               style: TextStyle(
-                  fontFamily: "Popins",
-                  fontWeight: FontWeight.w300,
-                  color: Colors.white54),
+                fontFamily: "Popins",
+                fontWeight: FontWeight.w300,
+                color: Colors.white54
+              ),
             )
           ],
         )
       ],
     );
   }
-}
-
-///
-/// Create wave appbar
-///
-class BottomWaveClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    var path = Path();
-    path.lineTo(0.0, size.height - 20);
-
-    var firstControlPoint = Offset(size.width / 4, size.height);
-    var firstEndPoint = Offset(size.width / 2.25, size.height - 30.0);
-    path.quadraticBezierTo(firstControlPoint.dx, firstControlPoint.dy,
-        firstEndPoint.dx, firstEndPoint.dy);
-
-    var secondControlPoint =
-        Offset(size.width - (size.width / 3.25), size.height - 65);
-    var secondEndPoint = Offset(size.width, size.height - 40);
-    path.quadraticBezierTo(secondControlPoint.dx, secondControlPoint.dy,
-        secondEndPoint.dx, secondEndPoint.dy);
-
-    path.lineTo(size.width, size.height - 40);
-    path.lineTo(size.width, 0.0);
-    path.close();
-
-    return path;
-  }
-
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
-}
-
-///
-/// Create triangle clipper
-///
-class TriangleClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    final path = Path();
-    path.lineTo(size.width, 0.0);
-    path.lineTo(size.width / 2, size.height);
-    path.close();
-    return path;
-  }
-
-  @override
-  bool shouldReclip(TriangleClipper oldClipper) => false;
 }
 
 ///

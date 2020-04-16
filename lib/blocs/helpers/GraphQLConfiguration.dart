@@ -1,7 +1,26 @@
-import 'package:dart_graphql/fetch/client.dart';
+import 'package:graphql/client.dart';
 
 class GraphQLConfiguration{
-  final GraphqlClient _client = GraphqlClient('http://upsitec.club/safesens/graphql/');
+  final HttpLink _httpLink;
+  static final apiUrl = "http://upsitec.club/safesens/graphql/";
 
-  GraphqlClient get client => _client;
+  GraphQLClient _client;
+
+  GraphQLConfiguration() 
+    : _httpLink = HttpLink(uri: GraphQLConfiguration.apiUrl);
+
+  GraphQLClient getGraphQLClient(){
+    _client ??= GraphQLClient(
+      link: _httpLink,
+      cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
+    );
+    return _client;
+  }
+
+  void updateClientHeader(HttpLink httpLink){
+    _client = GraphQLClient(
+      link: httpLink,
+      cache: OptimisticCache(dataIdFromObject: typenameDataIdFromObject),
+    );
+  }
 }

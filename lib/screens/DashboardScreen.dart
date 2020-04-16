@@ -1,6 +1,7 @@
 import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/screens/helpers/helpers.dart';
+import 'package:datav8/screens/tabs/DevicesTab.dart';
 import 'package:datav8/screens/tabs/HomeTab.dart';
 import 'package:datav8/screens/tabs/ProfileTab.dart';
 import 'package:flutter/material.dart';
@@ -31,19 +32,15 @@ class DashboardScreen extends StatelessWidget {
         return HomeTab();
 
       case ApplicationTab.DEVICES:
-        return Center(
-          child: Text("DEVICES"),
-        );
+        return DevicesTab();
 
       case ApplicationTab.PROFILE:
         return ProfileTab();
 
       default:
-        // Error screen
         return Center(
           child: Text("ERROR"),
         );
     }
   }
-
 }

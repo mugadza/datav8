@@ -1,8 +1,9 @@
-import 'package:dart_graphql/fetch/client.dart';
 import 'package:datav8/blocs/graphql/graphql.dart';
 import 'package:datav8/blocs/helpers/GraphQLConfiguration.dart';
 import 'package:datav8/blocs/models/home/GetHomeDataOperationResult.dart';
+import 'package:datav8/blocs/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:graphql/client.dart';
 
 class ApplicationRepository {
   final GraphQLConfiguration _graphQLConfiguration;
@@ -14,16 +15,21 @@ class ApplicationRepository {
     const String imei = "8868926026201686";
     const int eventCount = 10;
 
-    Map<String, String> header = {
-      "Content-Type": "application/json"
-    };
+    QueryOptions _options = QueryOptions(
+      documentNode: gql(HomeDataQueries.getHomeData(nEventCount: eventCount, nIMEI: imei)),
+      variables: <String, dynamic>{
+        "nEventCount": eventCount,
+        "nIMEI": imei
+      }
+    );
 
-    GraphqlResponse<GetHomeDataOperationResult> result = await _graphQLConfiguration.client.query(HomeDataQueries.getHomeData(nEventCount: eventCount, nIMEI: imei), header);
-    
-    if(result.hasError()){
-      throw Exception("Error: ${result.errors.toString()}");
+    QueryResult result = await _graphQLConfiguration.getGraphQLClient().query(_options);
+    GraphQLResponse<GetHomeDataOperationResult> homeResults = GraphQLResponse<GetHomeDataOperationResult>(GetHomeDataOperationResult.fromMap, (result.data != null) ? result.data.data : null);
+
+    if(result.hasException){
+      throw Exception("Error: ${result.exception.toString()}");
     }
     
-    return result.data;
+    return homeResults.data;
   }
 }

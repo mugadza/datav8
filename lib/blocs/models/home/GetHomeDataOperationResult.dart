@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:dart_graphql/dart_graphql.dart';
+import 'package:datav8/blocs/models/models.dart';
+
 
 class PageInfo extends MapObject {
   String get endCursor => map["endCursor"] as String;
@@ -193,7 +194,7 @@ class DeviceNode extends MapObject {
   DeviceNode clone() => DeviceNode.fromMap(toJson() as Map<String, dynamic>, true);
 }
 
-// ------------------------------------ Device Events ----------------------------- -------
+// ------------------------------------ Device Events ------------------------------------
 
 class EventNodeConnection extends MapObject {
   List<EventNodeEdge> get edges {

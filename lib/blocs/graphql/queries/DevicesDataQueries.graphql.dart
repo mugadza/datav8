@@ -1,9 +1,8 @@
-
-class HomeDataQueries {
-  static String getHomeData({String nIMEI, int nEventCount}) {
-    return r'''
-      query HomeDeviceInfo($nIMEI: String, $nEventCount: Int) {
-        allDevices(first: 1, imei: $nIMEI){
+class DevicesDataQueries {
+  static String getHomeData({String nIMEI, int nDeviceCount, int nEventCount}) {
+    return """
+      query DevicesInfo {
+        allDevices(first:  $nDeviceCount, imei: $nIMEI){
           edges{
             cursor
             node{
@@ -27,7 +26,7 @@ class HomeDataQueries {
               lowerThresholdCh2
               lowerThresholdCh3
               lowerThresholdCh4
-              lowerThresholdCh5
+              lowerThresholdCh5 
               monitoringActiveCh1
               monitoringActiveCh2
               monitoringActiveCh3
@@ -55,6 +54,6 @@ class HomeDataQueries {
           }
         }
       }
-    ''';
+    """;
   }
 }

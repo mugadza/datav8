@@ -6,7 +6,12 @@ import 'package:provider/provider.dart';
 
 import 'blocs/blocs.dart';
 
-class Application extends StatelessWidget {
+class Application extends StatefulWidget{
+  @override
+  _ApplicationState createState() => _ApplicationState();
+}
+
+class _ApplicationState extends State<Application> {
   @override
   Widget build(BuildContext context) {
 
@@ -15,7 +20,9 @@ class Application extends StatelessWidget {
       DeviceOrientation.portraitDown,
     ]);
 
-    final applicationTheme = Provider.of<ApplicationTheme>(context);
+    final _applicationTheme = Provider.of<ApplicationTheme>(context);
+    final _graphQLConfiguration = GraphQLConfiguration();
+    final _userRepository = UserRepository(graphQLConfiguration: _graphQLConfiguration);
 
     return MaterialApp(
       home: MultiBlocProvider(
@@ -28,17 +35,34 @@ class Application extends StatelessWidget {
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
-              applicationRepository: ApplicationRepository(graphQLConfiguration: GraphQLConfiguration())
+              applicationRepository: ApplicationRepository(graphQLConfiguration: _graphQLConfiguration)
             ),
           ),
           BlocProvider<BottomNavigationBloc>(
-            create: (context) => BottomNavigationBloc(homeBloc: "BlocProvider.of<HomeBloc>(context)"),
+            create: (context) => BottomNavigationBloc(homeBloc: BlocProvider.of<HomeBloc>(context)),
+          ),
+          BlocProvider<AuthenticationBloc>(
+            create: (context) => AuthenticationBloc(userRepository: _userRepository),
+          ),
+          BlocProvider<SigninBloc>(
+            create: (context) => SigninBloc(userRepository: _userRepository, authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
           )
         ], 
-        child: DashboardScreen(),
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+          builder: (context, state){
+            if (state is AuthenticationAuthenticatedState){
+              return DashboardScreen();
+            }
+            if ((state is AuthenticationUnauthenticatedState) || (state is AuthenticationUninitializedState)){
+              return SigninScreen();
+            }
+
+            return Container(child: Center(child: Text("Loading")));
+          },  
+        ),
       ),
       themeMode: ThemeMode.dark,
-      darkTheme: applicationTheme.data,
+      darkTheme: _applicationTheme.data,
       debugShowCheckedModeBanner: false,
     );
   }

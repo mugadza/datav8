@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/components/card/ChannelCard.dart';
@@ -18,21 +16,14 @@ class HomeTabScreen extends StatefulWidget {
 }
 
 class _HomeTabScreenState extends State<HomeTabScreen> {
-  bool loadCard = true;
+  bool loadCard = false;
   List<ChannelCardConfiguration> listChannelCardConfiguration;
   List<Tab> listChannelTabHeading;
   List<EventListView> listChannelEventList;
 
   @override
   void initState() {
-    Timer(Duration(seconds: 3),(){
-      setState(() {
-        loadCard = false;
-      });
-    });
-
     _buildListChannelCardConfiguration();
-    
     super.initState();
   }
 

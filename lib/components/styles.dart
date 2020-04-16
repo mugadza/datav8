@@ -20,7 +20,6 @@ class ApplicationColorStyle{
 }
 
 class ApplicationTextStyle{
-
   static final headerStyle = TextStyle(
     fontFamily: "Popins",
     fontSize: 21.0,
