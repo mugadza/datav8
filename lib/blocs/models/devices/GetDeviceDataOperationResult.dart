@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:datav8/blocs/models/models.dart';
 
-class GetHomeDataOperationResult extends MapObject {
+class GetDeviceDataOperationResult extends MapObject {
 
   DeviceNodeConnection get device {
     if (map['userDevices'] is DeviceNodeConnection) return map['userDevices'] as DeviceNodeConnection;
@@ -12,12 +12,13 @@ class GetHomeDataOperationResult extends MapObject {
 
   set device(DeviceNodeConnection value) => map["userDevices"] = value;
 
-  static GetHomeDataOperationResult fromMap(Map<String, dynamic> map,
+  static GetDeviceDataOperationResult fromMap(Map<String, dynamic> map,
       [bool deepCopy = false]) {
     if (map == null) return null;
     if (deepCopy) map = jsonDecode(jsonEncode(map)) as Map<String, dynamic>;
-    return GetHomeDataOperationResult()..map = map;
+    return GetDeviceDataOperationResult()..map = map;
   }
 
-  GetHomeDataOperationResult clone() => GetHomeDataOperationResult.fromMap(toJson() as Map<String, dynamic>, true);
+  GetDeviceDataOperationResult clone() => GetDeviceDataOperationResult.fromMap(toJson() as Map<String, dynamic>, true);
 }
+

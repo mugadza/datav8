@@ -38,6 +38,11 @@ class _ApplicationState extends State<Application> {
               applicationRepository: ApplicationRepository(graphQLConfiguration: _graphQLConfiguration)
             ),
           ),
+          BlocProvider<DeviceBloc>(
+            create: (context) => DeviceBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
+              applicationRepository: ApplicationRepository(graphQLConfiguration: _graphQLConfiguration)
+            ),
+          ),
           BlocProvider<BottomNavigationBloc>(
             create: (context) => BottomNavigationBloc(homeBloc: BlocProvider.of<HomeBloc>(context)),
           ),

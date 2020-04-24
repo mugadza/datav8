@@ -3,7 +3,7 @@ class HomeDataQueries {
   static String getHomeData({String nIMEI, int nEventCount}) {
     return r'''
       query HomeDeviceInfo($nIMEI: String, $nEventCount: Int) {
-        allDevices(first: 1, imei: $nIMEI){
+        userDevices(first: 1, imei: $nIMEI){
           edges{
             cursor
             node{

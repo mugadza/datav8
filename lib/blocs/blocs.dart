@@ -21,6 +21,11 @@ export './home/HomeBloc.dart';
 export './home/HomeEvents.dart';
 export './home/HomeStates.dart';
 
+// Device bloc
+export './device/DeviceBloc.dart';
+export './device/DeviceEvents.dart';
+export './device/DeviceStates.dart';
+
 // Authentication bloc
 export './authentication/AuthenticationBloc.dart';
 export './authentication/AuthenticationEvents.dart';

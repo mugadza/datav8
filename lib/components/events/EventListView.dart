@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:datav8/blocs/models/home/GetHomeDataOperationResult.dart';
+import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';

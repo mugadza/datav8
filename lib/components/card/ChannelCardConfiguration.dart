@@ -1,4 +1,4 @@
-import 'package:datav8/blocs/models/home/GetHomeDataOperationResult.dart';
+import 'package:datav8/blocs/models/models.dart';
 import 'package:flutter/material.dart';
 
 class ChannelCardConfiguration {
