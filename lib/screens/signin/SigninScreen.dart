@@ -31,6 +31,7 @@ class _SigninScreenState extends State<SigninScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   GlobalKey<FormState> _formKey;
   SigninState _currentSigninState;
+  SigninBloc _signinBloc;
 
   final SpinKitThreeBounce _spinKitThreeBounce = SpinKitThreeBounce(
     size: 20,
@@ -58,6 +59,7 @@ class _SigninScreenState extends State<SigninScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _signinBloc.dispose();
     super.dispose();
   }
 
@@ -74,13 +76,19 @@ class _SigninScreenState extends State<SigninScreen> {
       },
       child: BlocBuilder<SigninBloc, SigninState>(
         builder: (context, state){
+          if(_signinBloc == null) {
+            _signinBloc = BlocProvider.of<SigninBloc>(context);
+          }
+
           if(state is SigninInitialState){
-            BlocProvider.of<SigninBloc>(context).add(InitiateSigninEvent());
+            _signinBloc.add(InitiateSigninEvent());
             return _signInForm(context);
           }
+
           if(state is SigninSuccessState){
             return DashboardScreen();
           }
+          
           if(state is SignoutSuccessState){
             return _signInForm(context);
           }

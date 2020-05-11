@@ -16,12 +16,12 @@ class UserRepository {
       documentNode: gql(AuthenticationMutation.emailPasswordAuthenticationMutation(email, password))
     );
     QueryResult result = await _graphQLConfiguration.getGraphQLClient().mutate(_options);
-
-    GraphQLResponse<AuthenticationResult> graphQLResponse = GraphQLResponse(AuthenticationResult.fromMap, (result.data != null) ? result.data.data : null);
-
+    
     if(result.hasException){
       throw Exception("Error: ${result.exception.toString()}");
     }
+
+    GraphQLResponse<AuthenticationResult> graphQLResponse = GraphQLResponse(AuthenticationResult.fromMap, (result.data != null) ? result.data.data : null);
 
     return graphQLResponse.data;
   }

@@ -1,6 +1,6 @@
 import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/screens/helpers/CustomLoader.dart';
-import 'package:datav8/screens/tabs/helpers/DevicesTabScreen.dart';
+import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,7 +17,7 @@ class DevicesTab extends StatelessWidget {
           return CustomLoader();
         }
         else if(state is DeviceDataLoadingSuccessState){
-          return DevicesTabScreen(model: state.model);
+          return DevicesListScreen(model: state.model);
         }
         else {
           return Center(

@@ -1,5 +1,6 @@
 import 'package:datav8/blocs/blocs.dart';
-import 'package:datav8/screens/tabs/helpers/WaveAppBar.dart';
+import 'package:datav8/screens/helpers/helpers.dart';
+import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -56,17 +57,12 @@ class _ProfileTabState extends State<ProfileTab> {
               padding: 30.0,
               image: "assets/image/icon/aboutapp.png",
               tap: () {
-                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_callCenter()));
+                Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => AboutScreen()));
               },
             ),
 
-            Padding(
-              padding: const EdgeInsets.only(top: 30.0),
-              child: Divider(
-                color: Theme.of(context).hintColor,
-                height: 1.0,
-              ),
-            ),
+
+            _line(context),
             _logout(context)
           ],
         ),
@@ -114,24 +110,6 @@ class _ProfileTabState extends State<ProfileTab> {
         ),
       ),
     );
-    
-    
-    
-    // Padding(
-    //   padding: EdgeInsets.only(top: 37.5, right: 15.0),
-    //   child: Row(
-    //     mainAxisAlignment: MainAxisAlignment.end,
-    //     children: <Widget>[
-    //       InkWell(
-    //         child: Icon(Icons.power_settings_new, size: 27),
-    //         onTap: (){
-    //           BlocProvider.of<SigninBloc>(cxt).add(SignoutButtonPressedEvent());
-    //           print("----------------------------Logout-------------------------");
-    //         },
-    //       )
-    //     ]
-    //   ),
-    // );
   }
 
   ///
@@ -202,7 +180,7 @@ class Category extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: padding),
-                  child: Image.asset(image, height: 25.0, color: Color(0xFF15EDED)),
+                  child: Image.asset(image, height: 25.0, width: 30, color: Color(0xFF15EDED)),
                 ),
                 Text(
                   txt,

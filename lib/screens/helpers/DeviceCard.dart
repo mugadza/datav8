@@ -1,5 +1,5 @@
-import 'package:datav8/blocs/models/helpers/DeviceNode.dart';
-import 'package:datav8/screens/tabs/helpers/DeviceScreen.dart';
+import 'package:datav8/blocs/models/models.dart';
+import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
 
 class DeviceCard extends StatelessWidget {
@@ -64,7 +64,7 @@ class DeviceCard extends StatelessWidget {
                                   Text(device.imei, style: _style.copyWith(fontFamily: "Popins")),
                                   SizedBox(
                                     width: MediaQuery.of(context).size.width/1.55,
-                                    child: Text(device.unitLocation, maxLines: 1, overflow: TextOverflow.clip, style: _style.copyWith(fontWeight: FontWeight.w300, fontSize: 12.0, color: Colors.white24))
+                                    child: Text("${device.unitLocation.suburb}, ${device.unitLocation.city}", maxLines: 1, overflow: TextOverflow.clip, style: _style.copyWith(fontWeight: FontWeight.w300, fontSize: 12.0, color: Colors.white24))
                                   )
                                 ],
                               ),

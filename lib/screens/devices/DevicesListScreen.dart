@@ -1,18 +1,17 @@
 import 'package:datav8/blocs/models/models.dart';
-import 'package:datav8/screens/tabs/helpers/DeviceCard.dart';
-import 'package:datav8/screens/tabs/helpers/WaveAppBar.dart';
+import 'package:datav8/screens/helpers/helpers.dart';
 import 'package:flutter/material.dart';
 
-class DevicesTabScreen extends StatefulWidget {
+class DevicesListScreen extends StatefulWidget {
   final GetDeviceDataOperationResult model;
 
-  DevicesTabScreen({Key key, this.model}) : super(key: key);
+  DevicesListScreen({Key key, this.model}) : super(key: key);
 
   @override
-  _DevicesTabScreenState createState() => _DevicesTabScreenState();
+  _DevicesListScreenState createState() => _DevicesListScreenState();
 }
 
-class _DevicesTabScreenState extends State<DevicesTabScreen> {
+class _DevicesListScreenState extends State<DevicesListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

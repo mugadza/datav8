@@ -13,14 +13,12 @@ class ApplicationRepository {
       : _graphQLConfiguration = graphQLConfiguration;
 
   Future<GetHomeDataOperationResult> getHomeData() async {
-    const String imei = "8868926026201686";
     const int eventCount = 10;
 
     QueryOptions _options = QueryOptions(
-      documentNode: gql(HomeDataQueries.getHomeData(nEventCount: eventCount, nIMEI: imei)),
+      documentNode: gql(HomeDataQueries.getHomeData(nEventCount: eventCount)),
       variables: <String, dynamic>{
-        "nEventCount": eventCount,
-        "nIMEI": imei
+        "nEventCount": eventCount
       }
     );
 

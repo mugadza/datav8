@@ -18,6 +18,7 @@ dependencies:
   provider: ^4.0.4
   shared_preferences: ^0.5.6+3
   flutter_spinkit: ^4.1.2+1
+  rxdart: ^0.23.0
   graphql: ^3.0.0
   flutter:
     sdk: flutter
@@ -43,6 +44,9 @@ flutter:
   assets:
     - assets/image/logo_kl.png
     - assets/image/logo_dark_kl.png
+    - assets/image/no_message.png
+    - assets/image/no_message1.png
+    - assets/image/no_message2.png
     - assets/image/banner/banner1.png
     - assets/image/banner/banner2.png
     - assets/image/banner/banner3.png
@@ -53,8 +57,10 @@ flutter:
     - assets/image/icon/setting.png
     - assets/image/icon/callcenter.png
     - assets/image/icon/aboutapp.png
+    - assets/image/icon/015-alert.png
     - assets/avatars/avatar-7.png
     - assets/image/icon/icon_image.png
     - assets/image/loginHeader.png
+    - assets/image/buildingMenu.png
 
   

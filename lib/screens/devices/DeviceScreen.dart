@@ -72,47 +72,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 ///
                 /// Channel events tab lists
                 ///
-                Container(
-                  height: 700.0,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Expanded(
-                        child: DefaultTabController(
-                          length: listChannelEventList.length,
-                          child: Scaffold(
-                            appBar: PreferredSize(
-                              preferredSize: Size.fromHeight(25.0), // here the desired height
-                              child: AppBar(
-                                backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-                                elevation: 0.0,
-                                centerTitle: true,
-                                flexibleSpace: SafeArea(
-                                  child: TabBar(
-                                    isScrollable: true,
-                                    indicatorColor: ApplicationColorStyle.primaryColor,
-                                    labelColor: Theme.of(context).primaryColor,
-                                    unselectedLabelColor: Theme.of(context).textSelectionColor,
-                                    indicatorSize: TabBarIndicatorSize.label,
-                                    tabs: listChannelTabHeading,
-                                  ),
-                                ),
-                                automaticallyImplyLeading: false,
-                              ),
-                            ),
-                            body: Padding(
-                              padding: const EdgeInsets.only(top: 8.0),
-                              child: TabBarView(
-                                children: listChannelEventList,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+                _channelEventTabLists(context)
               ],
             ),
           ),
@@ -128,11 +88,78 @@ class _DeviceScreenState extends State<DeviceScreen> {
     );
   }
 
+  Widget _emptyDeviceEvents(){
+    return Column(
+      children: <Widget>[
+        SizedBox(height: 90.0),
+        Opacity(
+          opacity: 0.8,
+          child: Image.asset("assets/image/icon/015-alert.png", height: 115.0)
+        ),
+        SizedBox(height: 30.0),
+        (widget.device.unitName == null) ? Container() : Text(
+          widget.device.unitName,
+          style: TextStyle(fontFamily: "Popins", color: Colors.white24, fontSize: 17.0),
+        ),
+        Text(
+          "This Device has no events!",
+          style: TextStyle(fontFamily: "Popins", color: Colors.white24, fontSize: 17.0),
+        )
+      ],
+    );
+  }
+
+
+  Widget _channelEventTabLists(BuildContext context){
+    return (listChannelCardConfiguration.isEmpty) ? Container() : Container(
+      height: 700.0,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Expanded(
+            child: DefaultTabController(
+              length: listChannelEventList.length,
+              child: Scaffold(
+                appBar: PreferredSize(
+                  preferredSize: Size.fromHeight(25.0), // here the desired height
+                  child: AppBar(
+                    backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+                    elevation: 0.0,
+                    centerTitle: true,
+                    flexibleSpace: SafeArea(
+                      child: TabBar(
+                        isScrollable: true,
+                        indicatorColor: ApplicationColorStyle.primaryColor,
+                        labelColor: Theme.of(context).primaryColor,
+                        unselectedLabelColor: Theme.of(context).textSelectionColor,
+                        indicatorSize: TabBarIndicatorSize.label,
+                        tabs: listChannelTabHeading,
+                      ),
+                    ),
+                    automaticallyImplyLeading: false,
+                  ),
+                ),
+                body: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: TabBarView(
+                    children: listChannelEventList,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+
   ///
   /// Calling ImageLoaded animation for set a grid layout
   ///
   Widget _channelCardGridLoaded(BuildContext context) {
-    return StaggeredGridView.count(
+    return (listChannelCardConfiguration.isEmpty) ? _emptyDeviceEvents() : StaggeredGridView.count(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
       shrinkWrap: true,
       primary: false,
@@ -177,12 +204,16 @@ class _DeviceScreenState extends State<DeviceScreen> {
     listChannelTabHeading = [];
     listChannelEventList = [];
 
+    if (widget.device.events.edges.isEmpty){
+      return;
+    }
 
     EventNode firstNode = widget.device.events.edges.first.node;
+    List<EventNode> events = widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList();
 
     if(widget.device.ch1On){
       listChannelTabHeading.add(_buildTabHeader("CH1"));
-      Color cardColor = (firstNode.ch1 < widget.device.lowerThresholdCh1) ? Colors.orangeAccent : ((firstNode.ch1 > widget.device.upperThresholdCh1) ? Colors.redAccent : Colors.greenAccent);
+      Color cardColor = (widget.device.alertStateCh1) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
         name: widget.device.ch1Name,
         chartColor: cardColor,
@@ -190,14 +221,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
         monitoringActive: widget.device.monitoringActiveCh1,
         chartColorGradient: [cardColor.withOpacity(0.2), cardColor.withOpacity(0.01)],
         data: widget.device.events.edges.map((nodeEdge) => nodeEdge.node.ch1).toList(),
-        events: widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList()
+        events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
       listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
     }
     if(widget.device.ch2On){
       listChannelTabHeading.add(_buildTabHeader("CH2"));
-      Color cardColor = (firstNode.ch2 < widget.device.lowerThresholdCh2) ? Colors.orangeAccent : ((firstNode.ch2 > widget.device.upperThresholdCh2) ? Colors.redAccent : Colors.greenAccent);
+      Color cardColor = (widget.device.alertStateCh2) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
         name: widget.device.ch2Name,
         chartColor: cardColor,
@@ -205,14 +236,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
         monitoringActive: widget.device.monitoringActiveCh2,
         chartColorGradient: [cardColor.withOpacity(0.2), cardColor.withOpacity(0.01)],
         data: widget.device.events.edges.map((nodeEdge) => nodeEdge.node.ch2).toList(),
-        events: widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList()
+        events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
       listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
     }
     if(widget.device.ch3On){
       listChannelTabHeading.add(_buildTabHeader("CH3"));
-      Color cardColor = (firstNode.ch3 < widget.device.lowerThresholdCh3) ? Colors.orangeAccent : ((firstNode.ch3 > widget.device.upperThresholdCh3) ? Colors.redAccent : Colors.greenAccent);
+      Color cardColor = (widget.device.alertStateCh3) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
         name: widget.device.ch3Name,
         chartColor: cardColor,
@@ -220,14 +251,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
         monitoringActive: widget.device.monitoringActiveCh3,
         chartColorGradient: [cardColor.withOpacity(0.2), cardColor.withOpacity(0.01)],
         data: widget.device.events.edges.map((nodeEdge) => nodeEdge.node.ch3).toList(),
-        events: widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList()
+        events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
       listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
     }
     if(widget.device.ch4On){
       listChannelTabHeading.add(_buildTabHeader("CH4"));
-      Color cardColor = (firstNode.ch4 < widget.device.lowerThresholdCh4) ? Colors.orangeAccent : ((firstNode.ch4 > widget.device.upperThresholdCh4) ? Colors.redAccent : Colors.greenAccent);
+      Color cardColor = (widget.device.alertStateCh4) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
         name: widget.device.ch4Name,
         chartColor: cardColor,
@@ -235,14 +266,14 @@ class _DeviceScreenState extends State<DeviceScreen> {
         monitoringActive: widget.device.monitoringActiveCh4,
         chartColorGradient: [cardColor.withOpacity(0.2), cardColor.withOpacity(0.01)],
         data: widget.device.events.edges.map((nodeEdge) => nodeEdge.node.ch4).toList(),
-        events: widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList()
+        events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
       listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
     }
     if(widget.device.ch5On){
       listChannelTabHeading.add(_buildTabHeader("CH5"));
-      Color cardColor = (firstNode.ch5 < widget.device.lowerThresholdCh5) ? Colors.orangeAccent : ((firstNode.ch5 > widget.device.upperThresholdCh5) ? Colors.redAccent : Colors.greenAccent);
+      Color cardColor = (widget.device.alertStateCh5) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
         name: widget.device.ch5Name,
         chartColor: cardColor,
@@ -250,7 +281,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         monitoringActive: widget.device.monitoringActiveCh5,
         chartColorGradient: [cardColor.withOpacity(0.2), cardColor.withOpacity(0.01)],
         data: widget.device.events.edges.map((nodeEdge) => nodeEdge.node.ch5).toList(),
-        events: widget.device.events.edges.map((nodeEdge) => nodeEdge.node).toList()
+        events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
       listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));

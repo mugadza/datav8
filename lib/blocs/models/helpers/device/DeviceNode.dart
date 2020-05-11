@@ -9,8 +9,11 @@ class DeviceNode extends MapObject {
   String get unitName => map["unitName"] as String;
   set unitName(String value) => map["unitName"] = value;
 
-  String get unitLocation => map["unitLocation"] as String;
-  set unitLocation(String value) => map["unitLocation"] = value;
+  Address get unitLocation {
+    if (map['unitLocation'] is Address) return map['unitLocation'] as Address;
+    return map['unitLocation'] = Address.fromMap(map['unitLocation'] as Map<String, dynamic>);
+  }
+  set unitLocation(Address value) => map['unitLocation'] = value;
 
   bool get ch1On => map["ch1On"] as bool;
   set ch1On(bool value) => map["ch1On"] = value;
@@ -119,3 +122,7 @@ class DeviceNode extends MapObject {
 
   DeviceNode clone() => DeviceNode.fromMap(toJson() as Map<String, dynamic>, true);
 }
+
+
+
+

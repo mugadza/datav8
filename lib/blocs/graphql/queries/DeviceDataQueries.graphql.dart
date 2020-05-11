@@ -2,13 +2,16 @@ class DeviceDataQueries {
   static String getAllUserDevices({int nDeviceCount, int nEventCount}) {
     return r'''
       query AllUserDevicesInfo($nDeviceCount: Int, $nEventCount: Int) {
-        userDevices(first: $nDeviceCount){
+        devices(first: $nDeviceCount){
           edges{
             cursor
             node{
               imei
               unitName
-              unitLocation
+              unitLocation{
+                suburb
+                city
+              }
               ch1On
               ch2On
               ch3On

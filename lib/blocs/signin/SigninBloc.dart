@@ -9,16 +9,21 @@ import 'package:datav8/blocs/signin/SigninEvents.dart';
 import 'package:datav8/blocs/signin/SigninStates.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
+import 'package:rxdart/rxdart.dart';
 
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
+  final BehaviorSubject<AuthenticationResult> _authenticatedResultSubject;
 
   SigninBloc({@required this.userRepository, @required this.authenticationBloc})  
     : assert(userRepository != null),
-      assert(authenticationBloc != null);
+      assert(authenticationBloc != null),
+      _authenticatedResultSubject = BehaviorSubject.seeded(null);
 
   SigninState get initialState => SigninInitialState();
+
+  AuthenticationResult get authenticationResult => _authenticatedResultSubject.value;
 
   @override
   Stream<SigninState> mapEventToState(SigninEvent event) async* {
@@ -32,8 +37,9 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       yield SigninLoadingState();
 
       try {
-        final AuthenticationResult result = await userRepository.authenticate(email: event.email, password: event.password);
-        authenticationBloc.add(AuthenticatedEvent(token: result.auth.token));
+        AuthenticationResult authenticatedResult = await userRepository.authenticate(email: event.email, password: event.password);
+        _authenticatedResultSubject.sink.add(authenticatedResult);
+        authenticationBloc.add(AuthenticatedEvent(token: authenticatedResult.auth.token));
         yield SigninSuccessState();
       } 
       catch (error) {
@@ -44,5 +50,9 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       await userRepository.deleteToken();
       yield SignoutSuccessState();
     }
+  }
+
+  void dispose(){
+    _authenticatedResultSubject.close();
   }
 }

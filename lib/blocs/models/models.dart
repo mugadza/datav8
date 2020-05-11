@@ -1,3 +1,6 @@
+// Errors
+export './errors/AccountError.dart';
+
 // Navigation
 export './navigation/ApplicationTab.dart';
 
@@ -12,10 +15,21 @@ export './authentication/AuthenticationResult.dart';
 
 // Helpers
 export './helpers/GraphQLResponse.dart';
-export './helpers/DeviceNodeEdge.dart';
-export './helpers/DeviceNode.dart';
-export './helpers/DeviceNodeConnection.dart';
-export './helpers/EventNodeConnection.dart';
-export './helpers/EventNodeEdge.dart';
-export './helpers/EventNode.dart';
 export './helpers/PageInfo.dart';
+
+export './helpers/device/DeviceNodeEdge.dart';
+export './helpers/device/DeviceNode.dart';
+export './helpers/device/DeviceNodeConnection.dart';
+
+export './helpers/event/EventNodeConnection.dart';
+export './helpers/event/EventNodeEdge.dart';
+export './helpers/event/EventNode.dart';
+
+export './helpers/user/Avatar.dart';
+export './helpers/user/TokenAuth.dart';
+export './helpers/user/UserNodeConnection.dart';
+export './helpers/user/UserNodeEdge.dart';
+export './helpers/user/UserNode.dart';
+
+export './helpers/utils/Address.dart';
+export './helpers/utils/Country.dart';

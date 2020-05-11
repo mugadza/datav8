@@ -5,12 +5,12 @@ import 'package:datav8/blocs/models/models.dart';
 class GetDeviceDataOperationResult extends MapObject {
 
   DeviceNodeConnection get device {
-    if (map['userDevices'] is DeviceNodeConnection) return map['userDevices'] as DeviceNodeConnection;
-    return map['userDevices'] =
-        DeviceNodeConnection.fromMap(map['userDevices'] as Map<String, dynamic>);
+    if (map['devices'] is DeviceNodeConnection) return map['devices'] as DeviceNodeConnection;
+    return map['devices'] =
+        DeviceNodeConnection.fromMap(map['devices'] as Map<String, dynamic>);
   }
 
-  set device(DeviceNodeConnection value) => map["userDevices"] = value;
+  set device(DeviceNodeConnection value) => map["devices"] = value;
 
   static GetDeviceDataOperationResult fromMap(Map<String, dynamic> map,
       [bool deepCopy = false]) {

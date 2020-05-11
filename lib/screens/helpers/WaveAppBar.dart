@@ -37,7 +37,7 @@ class _WaveAppBarState extends State<WaveAppBar> {
         _triangle(110.0, 80.0),
         _triangle(50.0, 190.0),
         _triangle(40.0, 300.0),
-        _triangle(160.0, 330.0),
+        _triangle(120.0, 330.0),
 
         ///
         /// Top right action
