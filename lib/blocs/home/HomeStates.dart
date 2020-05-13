@@ -7,27 +7,29 @@ abstract class HomeState extends Equatable{
 }
 
 class HomeTabPressedState extends HomeState {
-  const HomeTabPressedState();
+  final DeviceNodeFakeData model;
+  const HomeTabPressedState(this.model);
 
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => 'HomeTabPressedState';
+  String toString() => 'HomeTabPressedState { model: $model }';
 }
 
 class HomeDataLoadingState extends HomeState {
-  const HomeDataLoadingState();
+  final DeviceNodeFakeData model;
+  const HomeDataLoadingState(this.model);
 
   @override
   List<Object> get props => [];
 
   @override
-  String toString() => 'HomeDataLoadingState';
+  String toString() => 'HomeDataLoadingState { model: $model }';
 }
 
 class HomeDataLoadingSuccessState extends HomeState {
-  final GetHomeDataOperationResult model;
+  final DeviceNode model;
 
   const HomeDataLoadingSuccessState(this.model);
 

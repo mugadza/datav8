@@ -2,16 +2,20 @@ import 'dart:async';
 
 import 'package:datav8/blocs/authentication/AuthenticationEvents.dart';
 import 'package:datav8/blocs/authentication/AuthenticationStates.dart';
+import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/blocs/helpers/UserRepository.dart';
+import 'package:datav8/blocs/models/models.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
 
 
 class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> {
   final UserRepository userRepository;
-
-  AuthenticationBloc({@required this.userRepository})
-      : assert(userRepository != null);
+  final ApplicationRepository applicationRepository;
+  final ApplicationBloc applicationBloc;
+  
+  AuthenticationBloc({@required this.userRepository, @required this.applicationRepository, @required this.applicationBloc})
+      : assert(userRepository != null), assert(applicationRepository != null), assert(applicationBloc != null);
 
   @override
   AuthenticationState get initialState => AuthenticationUninitializedState();
@@ -23,13 +27,18 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
     if (event is AuthenticatedEvent) {
       yield AuthenticationLoadingState();
       await userRepository.persistToken(event.token);
-      yield AuthenticationAuthenticatedState();
+      GetInitialApplicationDataResult result = await applicationRepository.getInitialApplicationData();
+      applicationBloc.initialApplicationDataResultSink.add(result);
+      yield AuthenticationAuthenticatedState(result);
     }
     else if (hasToken) {
-      yield AuthenticationAuthenticatedState();
+      GetInitialApplicationDataResult result = await applicationRepository.getInitialApplicationData();
+      applicationBloc.initialApplicationDataResultSink.add(result);
+      yield AuthenticationAuthenticatedState(result);
     } 
     else{
       yield AuthenticationUnauthenticatedState();
     }
   }
 }
+

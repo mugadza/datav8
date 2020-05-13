@@ -15,15 +15,19 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
   final BehaviorSubject<AuthenticationResult> _authenticatedResultSubject;
+  final BehaviorSubject<UserNode> _userNodeSubject;
 
   SigninBloc({@required this.userRepository, @required this.authenticationBloc})  
     : assert(userRepository != null),
       assert(authenticationBloc != null),
+      _userNodeSubject = BehaviorSubject.seeded(null),
       _authenticatedResultSubject = BehaviorSubject.seeded(null);
 
   SigninState get initialState => SigninInitialState();
 
   AuthenticationResult get authenticationResult => _authenticatedResultSubject.value;
+
+  UserNode get userNode => _userNodeSubject.value;
 
   @override
   Stream<SigninState> mapEventToState(SigninEvent event) async* {
@@ -54,5 +58,6 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
 
   void dispose(){
     _authenticatedResultSubject.close();
+    _userNodeSubject.close();
   }
 }

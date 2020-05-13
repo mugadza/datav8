@@ -7,37 +7,20 @@ import 'package:shimmer/shimmer.dart';
 
 class EventListView extends StatefulWidget {
   final ChannelCardConfiguration channelCardConfiguration;
-
-  EventListView({Key key, this.channelCardConfiguration}) : super(key: key);
+  final bool loadImage;
+  EventListView({Key key, this.channelCardConfiguration, this.loadImage}) : super(key: key);
 
   _EventListViewState createState() => _EventListViewState();
 }
 
 class _EventListViewState extends State<EventListView> {
-  ///
-  /// check the condition is right or wrong for image loaded or no
-  ///
-  bool loadImage = true;
-
-  /// To set duration initState auto start if FlashSale Layout open
-  @override
-  void initState() {
-    Timer(Duration(seconds: 1),(){
-      setState(() {
-        loadImage=false;
-      });
-    });
-    super.initState();
-  }
-
   Widget build(BuildContext context) {
     return Column(
       children: <Widget>[
         Container(
           color: Theme.of(context).canvasColor,
           child: Padding(
-            padding: const EdgeInsets.only(
-                left: 0.0, right: 0.0, top: 7.0, bottom: 7.0),
+            padding: const EdgeInsets.only(left: 0.0, right: 0.0, top: 7.0, bottom: 7.0),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -74,8 +57,7 @@ class _EventListViewState extends State<EventListView> {
         ///
         /// Event rows
         ///
-
-        loadImage ? _loadingImageAnimation(context) : _imageLoaded(context),
+        widget.loadImage ? _loadingImageAnimation(context) : _imageLoaded(context),
       ],
     );
   }

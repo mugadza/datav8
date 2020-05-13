@@ -6,19 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 
-class SigninxScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<SigninBloc, SigninState>(
-      builder: (BuildContext context, SigninState state) {
-        return Scaffold(
-          body: Center(child: Text("Sign in"),),
-        );
-      },
-    );
-  }
-}
-
 
 class SigninScreen extends StatefulWidget {
   @override

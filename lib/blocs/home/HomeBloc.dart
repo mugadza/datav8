@@ -8,24 +8,21 @@ import 'package:datav8/blocs/models/models.dart';
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final ApplicationBloc applicationBloc;
   final ApplicationRepository applicationRepository;
+  final DeviceNodeFakeData _deviceNodeFakeData;
 
-  HomeBloc({this.applicationBloc, this.applicationRepository});
+  HomeBloc({this.applicationBloc, this.applicationRepository})
+    : _deviceNodeFakeData = DeviceNodeFakeData();
 
   @override
-  HomeState get initialState => HomeTabPressedState();
+  HomeState get initialState => HomeTabPressedState(_deviceNodeFakeData);
 
   @override
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is HomeDataLoadingEvent) {
-      yield HomeDataLoadingState();
-      GetHomeDataOperationResult homeDataModel;
-      try {
-        homeDataModel = await applicationRepository.getHomeData();
-      } 
-      catch (error) {
-        yield HomeErrorState(error: error.toString());
+      yield HomeDataLoadingState(_deviceNodeFakeData);
+      if ( applicationBloc.hasInitialApplicationDataResult ){
+        yield HomeDataLoadingSuccessState(applicationBloc.initialApplicationDataResult.user.homeDevice);
       }
-      yield HomeDataLoadingSuccessState(homeDataModel);
     }
   }
 }

@@ -68,4 +68,10 @@ class UserRepository {
 
     return tokenFound;
   }
+
+  Future<String> getToken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    
+    return prefs.getString("jwtToken");
+  }
 }

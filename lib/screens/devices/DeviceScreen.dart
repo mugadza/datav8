@@ -11,13 +11,13 @@ import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 class DeviceScreen extends StatefulWidget {
   final DeviceNode device;
   final bool enableBackButton;
-  DeviceScreen({Key key, this.device, this.enableBackButton = false}) : super(key: key);
+  final bool loadCard;
+  DeviceScreen({Key key, this.device, this.enableBackButton = false, this.loadCard}) : super(key: key);
 
   _DeviceScreenState createState() => _DeviceScreenState();
 }
 
 class _DeviceScreenState extends State<DeviceScreen> {
-  bool loadCard = false;
   List<ChannelCardConfiguration> listChannelCardConfiguration;
   List<Tab> listChannelTabHeading;
   List<EventListView> listChannelEventList;
@@ -67,7 +67,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                 ///
                 /// Device channel cards
                 ///
-                loadCard ? _channelLoadingCardAnimation(context) : _channelCardGridLoaded(context),
+                widget.loadCard ? _channelLoadingCardAnimation(context) : _channelCardGridLoaded(context),
 
                 ///
                 /// Channel events tab lists
@@ -204,7 +204,11 @@ class _DeviceScreenState extends State<DeviceScreen> {
     listChannelTabHeading = [];
     listChannelEventList = [];
 
-    if (widget.device.events.edges.isEmpty){
+    if (widget.device == null){
+      return;
+    }
+
+    if (widget.device.events.edges.isEmpty || widget.device == null){
       return;
     }
 
@@ -224,7 +228,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
     }
     if(widget.device.ch2On){
       listChannelTabHeading.add(_buildTabHeader("CH2"));
@@ -239,7 +243,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
     }
     if(widget.device.ch3On){
       listChannelTabHeading.add(_buildTabHeader("CH3"));
@@ -254,7 +258,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
     }
     if(widget.device.ch4On){
       listChannelTabHeading.add(_buildTabHeader("CH4"));
@@ -269,7 +273,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
     }
     if(widget.device.ch5On){
       listChannelTabHeading.add(_buildTabHeader("CH5"));
@@ -284,7 +288,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
     }
   }
 

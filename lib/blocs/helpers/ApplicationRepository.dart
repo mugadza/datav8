@@ -53,4 +53,28 @@ class ApplicationRepository {
     
     return deviceTabResults.data;
   }
+
+  Future<GetInitialApplicationDataResult> getInitialApplicationData() async {
+    const int eventCount = 10;
+    const int deviceCount = 10;
+    const int userCount = 10;
+
+    QueryOptions _options = QueryOptions(
+      documentNode: gql(ApplicationQueries.getApplicationInitialData(nUserCount: userCount, nEventCount: eventCount, nDeviceCount: deviceCount)),
+      variables: <String, dynamic>{
+        "nUserCount": userCount,
+        "nDeviceCount": deviceCount,
+        "nEventCount": eventCount
+      }
+    );
+
+    QueryResult result = await _graphQLConfiguration.getGraphQLClient().query(_options);
+    GraphQLResponse<GetInitialApplicationDataResult> deviceTabResults = GraphQLResponse<GetInitialApplicationDataResult>(GetInitialApplicationDataResult.fromMap, (result.data != null) ? result.data.data : null);
+ 
+    if(result.hasException){
+      throw Exception("Error: ${result.exception.toString()}");
+    }
+    
+    return deviceTabResults.data;
+  }
 }

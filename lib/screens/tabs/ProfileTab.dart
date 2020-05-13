@@ -20,7 +20,7 @@ class _ProfileTabState extends State<ProfileTab> {
             ///
             /// Add the wave app bar at the top
             ///
-            WaveAppBar(child: profile(), height: 220.0),
+            WaveAppBar(child: profile(context), height: 220.0),
 
             ///
             /// Create list for category
@@ -115,7 +115,7 @@ class _ProfileTabState extends State<ProfileTab> {
   ///
   /// Create profile widget
   ///
-  Widget profile() {
+  Widget profile(BuildContext context) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,

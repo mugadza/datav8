@@ -1,4 +1,5 @@
 export './DashboardScreen.dart';
+export './SplashScreen.dart';
 
 // Sign in screen
 export './signin/SigninScreen.dart';

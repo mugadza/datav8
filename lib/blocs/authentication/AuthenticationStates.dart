@@ -1,3 +1,4 @@
+import 'package:datav8/blocs/models/models.dart';
 import 'package:equatable/equatable.dart';
 
 abstract class AuthenticationState extends Equatable {
@@ -11,6 +12,10 @@ class AuthenticationUninitializedState extends AuthenticationState {
 }
 
 class AuthenticationAuthenticatedState extends AuthenticationState {
+  final GetInitialApplicationDataResult initialApplicationDataResult;
+
+  AuthenticationAuthenticatedState(this.initialApplicationDataResult);
+  
   @override
   String toString() => 'AuthenticationAuthenticatedState';
 }

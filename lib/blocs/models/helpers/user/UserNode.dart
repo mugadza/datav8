@@ -28,19 +28,21 @@ class UserNode extends MapObject {
 
   UserNodeConnection get userNodeConnection {
     if (map['userSet'] is UserNodeConnection) return map['userSet'] as UserNodeConnection;
-    return map['userSet'] =
-        UserNodeConnection.fromMap(map['userSet'] as Map<String, dynamic>);
+    return map['userSet'] = UserNodeConnection.fromMap(map['userSet'] as Map<String, dynamic>);
   }
-
   set userNodeConnection(UserNodeConnection value) => map["userSet"] = value;
 
   DeviceNodeConnection get deviceNodeConnection {
     if (map['devices'] is DeviceNodeConnection) return map['devices'] as DeviceNodeConnection;
-    return map['devices'] =
-        DeviceNodeConnection.fromMap(map['devices'] as Map<String, dynamic>);
+    return map['devices'] = DeviceNodeConnection.fromMap(map['devices'] as Map<String, dynamic>);
   }
-
   set deviceNodeConnection(DeviceNodeConnection value) => map["devices"] = value;
+
+  DeviceNode get homeDevice {
+    if (map['homeDevice'] is DeviceNode) return map['homeDevice'] as DeviceNode;
+    return map['homeDevice'] = DeviceNode.fromMap(map['homeDevice'] as Map<String, dynamic>);
+  }
+  set homeDevice(DeviceNode value) => map["homeDevice"] = value;
 
   static UserNode fromMap(Map<String, dynamic> map, [bool deepCopy = false]) {
     if (map == null) return null;

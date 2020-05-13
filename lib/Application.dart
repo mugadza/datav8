@@ -23,6 +23,7 @@ class _ApplicationState extends State<Application> {
     final _applicationTheme = Provider.of<ApplicationTheme>(context);
     final _graphQLConfiguration = GraphQLConfiguration();
     final _userRepository = UserRepository(graphQLConfiguration: _graphQLConfiguration);
+    final _applicationRepository = ApplicationRepository(graphQLConfiguration: _graphQLConfiguration);
 
     return MaterialApp(
       home: MultiBlocProvider(
@@ -35,36 +36,53 @@ class _ApplicationState extends State<Application> {
           ),
           BlocProvider<HomeBloc>(
             create: (context) => HomeBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
-              applicationRepository: ApplicationRepository(graphQLConfiguration: _graphQLConfiguration)
+              applicationRepository: _applicationRepository
             ),
           ),
           BlocProvider<DeviceBloc>(
             create: (context) => DeviceBloc(applicationBloc: BlocProvider.of<ApplicationBloc>(context), 
-              applicationRepository: ApplicationRepository(graphQLConfiguration: _graphQLConfiguration)
+              applicationRepository: _applicationRepository
             ),
           ),
           BlocProvider<BottomNavigationBloc>(
             create: (context) => BottomNavigationBloc(homeBloc: BlocProvider.of<HomeBloc>(context)),
           ),
           BlocProvider<AuthenticationBloc>(
-            create: (context) => AuthenticationBloc(userRepository: _userRepository),
+            create: (context) => AuthenticationBloc(userRepository: _userRepository, applicationRepository: _applicationRepository, applicationBloc: BlocProvider.of<ApplicationBloc>(context)),
           ),
           BlocProvider<SigninBloc>(
             create: (context) => SigninBloc(userRepository: _userRepository, authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
           )
         ], 
-        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        child: 
+        BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
-            if (state is AuthenticationAuthenticatedState){
-              return DashboardScreen();
-            }
-            if ((state is AuthenticationUnauthenticatedState) || (state is AuthenticationUninitializedState)){
-              return SigninScreen();
+            if(state is AuthenticationUninitializedState || state is AuthenticationLoadingState){
+              return SplashScreen(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context));
             }
 
-            return Container(child: Center(child: Text("Loading")));
+            if(state is AuthenticationAuthenticatedState){
+              return DashboardScreen();//return Scaffold(body: Center(child: Text("LOAD DATA.")));
+            }
+
+            return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
           },  
         ),
+
+
+
+        // BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        //   builder: (context, state){
+        //     if (state is AuthenticationAuthenticatedState){
+        //       return DashboardScreen();
+        //     }
+        //     if ((state is AuthenticationUnauthenticatedState) || (state is AuthenticationUninitializedState)){
+        //       return SigninScreen();
+        //     }
+
+        //     return Container(child: Center(child: Text("Loading")));
+        //   },  
+        // ),
       ),
       themeMode: ThemeMode.dark,
       darkTheme: _applicationTheme.data,

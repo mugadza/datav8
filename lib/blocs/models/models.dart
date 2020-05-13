@@ -13,6 +13,9 @@ export './devices/GetDeviceDataOperationResult.dart';
 // Authentication
 export './authentication/AuthenticationResult.dart';
 
+// Others
+export './GetInitialApplicationDataResult.dart';
+
 // Helpers
 export './helpers/GraphQLResponse.dart';
 export './helpers/PageInfo.dart';
@@ -20,6 +23,7 @@ export './helpers/PageInfo.dart';
 export './helpers/device/DeviceNodeEdge.dart';
 export './helpers/device/DeviceNode.dart';
 export './helpers/device/DeviceNodeConnection.dart';
+export './helpers/device/DeviceNodeFakeData.dart';
 
 export './helpers/event/EventNodeConnection.dart';
 export './helpers/event/EventNodeEdge.dart';
