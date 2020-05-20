@@ -92,6 +92,7 @@ class ApplicationQueries {
             ch3On
             ch4On
             ch5On
+            unitName
             ch1Name
             ch2Name
             ch3Name

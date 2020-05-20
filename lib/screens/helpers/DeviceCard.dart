@@ -9,7 +9,7 @@ class DeviceCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextStyle _style = TextStyle(fontFamily: "Sans", fontWeight: FontWeight.w200, letterSpacing: 1.5, fontSize: 16.0);
-    
+
     return Padding(
       padding: const EdgeInsets.only(top: 5.0),
       child: Stack(
@@ -21,10 +21,18 @@ class DeviceCard extends StatelessWidget {
                 width: double.infinity,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.all(Radius.circular(25.0)),
-                  color: Color(0xFF232D4E),
+                  color: Theme.of(context).canvasColor,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0xFF656565).withOpacity(0.15),
+                      blurRadius: 1.0,
+                      spreadRadius: 1.0,
+                      offset: Offset(0.1, 1.0)
+                    )
+                  ]
                 ),
                 child: InkWell(
-                  onTap: () => Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => DeviceScreen(device: device, enableBackButton: true))),
+                  onTap: () => Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => DeviceScreen(device: device, enableBackButton: true, loadCard: false))),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,

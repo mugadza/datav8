@@ -9,6 +9,10 @@ class HomeTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (BuildContext context, HomeState state) {
+        if(state is HomeTabPressedState){
+          BlocProvider.of<HomeBloc>(context).add(HomeDataLoadingEvent());
+        }
+        
         if(state is HomeTabPressedState || state is HomeDataLoadingState){
           DeviceNodeFakeData model = (state is HomeTabPressedState) ? state.model : (state as HomeDataLoadingState).model;
           return DeviceScreen(device: model.device, loadCard: true);

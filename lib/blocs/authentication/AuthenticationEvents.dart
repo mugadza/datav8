@@ -24,3 +24,8 @@ class AuthenticatedEvent extends AuthenticationEvent {
   @override
   String toString() => 'AuthenticatedEvent { token: $token }';
 }
+
+class UnauthenticatedEvent extends AuthenticationEvent {
+  @override
+  String toString() => 'UnauthenticatedEvent';
+}

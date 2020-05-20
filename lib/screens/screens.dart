@@ -10,3 +10,6 @@ export './devices/DevicesListScreen.dart';
 
 // About
 export './about/AboutScreen.dart';
+
+// helpers
+export './helpers/helpers.dart';

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:carousel_pro/carousel_pro.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/components/card/ChannelCard.dart';
@@ -7,6 +9,7 @@ import 'package:datav8/components/components.dart';
 import 'package:datav8/components/events/EventListView.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:rxdart/rxdart.dart';
 
 class DeviceScreen extends StatefulWidget {
   final DeviceNode device;
@@ -21,15 +24,23 @@ class _DeviceScreenState extends State<DeviceScreen> {
   List<ChannelCardConfiguration> listChannelCardConfiguration;
   List<Tab> listChannelTabHeading;
   List<EventListView> listChannelEventList;
+  StreamController<bool> _loadCardStreamController;
 
   @override
   void initState() {
-    _buildListChannelCardConfiguration();
+    _loadCardStreamController = BehaviorSubject.seeded(true);
     super.initState();
   }
 
   @override
+  void dispose() {
+    _loadCardStreamController.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    _loadCardStreamController.sink.add(widget.loadCard);
     return Scaffold(
       body: Stack(
         alignment: Alignment.topLeft,
@@ -99,7 +110,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         SizedBox(height: 30.0),
         (widget.device.unitName == null) ? Container() : Text(
           widget.device.unitName,
-          style: TextStyle(fontFamily: "Popins", color: Colors.white24, fontSize: 17.0),
+          style: TextStyle(fontFamily: "Popins", color: Colors.white24, fontSize: 17.0, fontWeight: FontWeight.bold),
         ),
         Text(
           "This Device has no events!",
@@ -109,10 +120,9 @@ class _DeviceScreenState extends State<DeviceScreen> {
     );
   }
 
-
   Widget _channelEventTabLists(BuildContext context){
     return (listChannelCardConfiguration.isEmpty) ? Container() : Container(
-      height: 700.0,
+      height: 760.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -159,6 +169,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
   /// Calling ImageLoaded animation for set a grid layout
   ///
   Widget _channelCardGridLoaded(BuildContext context) {
+    _buildListChannelCardConfiguration();
+
     return (listChannelCardConfiguration.isEmpty) ? _emptyDeviceEvents() : StaggeredGridView.count(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
       shrinkWrap: true,
@@ -181,6 +193,8 @@ class _DeviceScreenState extends State<DeviceScreen> {
   /// Calling imageLoading animation for set a grid layout
   ///
   Widget _channelLoadingCardAnimation(BuildContext context) {
+    _buildListChannelCardConfiguration();
+
     return StaggeredGridView.count(
       padding: EdgeInsets.symmetric(horizontal: 10.0, vertical: 0.0),
       shrinkWrap: true,
@@ -228,7 +242,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImageSink: _loadCardStreamController.stream));
     }
     if(widget.device.ch2On){
       listChannelTabHeading.add(_buildTabHeader("CH2"));
@@ -243,7 +257,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImageSink: _loadCardStreamController.stream));
     }
     if(widget.device.ch3On){
       listChannelTabHeading.add(_buildTabHeader("CH3"));
@@ -258,7 +272,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImageSink: _loadCardStreamController.stream));
     }
     if(widget.device.ch4On){
       listChannelTabHeading.add(_buildTabHeader("CH4"));
@@ -273,7 +287,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImageSink: _loadCardStreamController.stream));
     }
     if(widget.device.ch5On){
       listChannelTabHeading.add(_buildTabHeader("CH5"));
@@ -288,7 +302,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         events: events
       );
       listChannelCardConfiguration.add(channelCardConfiguration);
-      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImage: widget.loadCard));
+      listChannelEventList.add(EventListView(channelCardConfiguration: channelCardConfiguration, loadImageSink: _loadCardStreamController.stream));
     }
   }
 

@@ -38,26 +38,15 @@ class ChannelCardLoading extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Container(
-                      color: Theme.of(context).hintColor,
-                      height: 20.0,
-                      width: 70.0,
-                    ),
+                    Container(color: Theme.of(context).hintColor, height: 20.0, width: 70.0),
                     Padding(
                       padding: const EdgeInsets.only(right: 6.0),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
-                          Container(
-                            height: 17.0,
-                            width: 70.0,
-                          ),
-                          Container(
-                            color: Theme.of(context).hintColor,
-                            height: 17.0,
-                            width: 70.0,
-                          ),
+                          Container(height: 17.0, width: 70.0),
+                          Container(color: Theme.of(context).hintColor, height: 17.0, width: 70.0),
                         ],
                       ),
                     )

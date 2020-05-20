@@ -1,6 +1,5 @@
 import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/components/components.dart';
-import 'package:datav8/screens/helpers/CustomLoader.dart';
 import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -8,6 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 
 class SigninScreen extends StatefulWidget {
+  final SigninBloc signinBloc;
+  const SigninScreen({Key key, @required this.signinBloc}) : super(key: key);
   @override
   _SigninScreenState createState() => _SigninScreenState();
 }
@@ -18,7 +19,7 @@ class _SigninScreenState extends State<SigninScreen> {
   GlobalKey<ScaffoldState> _scaffoldKey;
   GlobalKey<FormState> _formKey;
   SigninState _currentSigninState;
-  SigninBloc _signinBloc;
+  
 
   final SpinKitThreeBounce _spinKitThreeBounce = SpinKitThreeBounce(
     size: 20,
@@ -46,29 +47,26 @@ class _SigninScreenState extends State<SigninScreen> {
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
-    _signinBloc.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context){
     return BlocListener<SigninBloc, SigninState>(
+      bloc: widget.signinBloc,
       listener: (BuildContext context, SigninState state) {
         setState(() {
           _currentSigninState = state;
         });
         if(state is SigninFailureState){
-          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(state.error), backgroundColor: ApplicationColorStyle.primaryColor));
+          _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(state.error.replaceFirst("Exception: ", "")), backgroundColor: ApplicationColorStyle.primaryColor));
         }
       },
       child: BlocBuilder<SigninBloc, SigninState>(
+        bloc: widget.signinBloc,
         builder: (context, state){
-          if(_signinBloc == null) {
-            _signinBloc = BlocProvider.of<SigninBloc>(context);
-          }
-
           if(state is SigninInitialState){
-            _signinBloc.add(InitiateSigninEvent());
+            widget.signinBloc.add(InitiateSigninEvent());
             return _signInForm(context);
           }
 
@@ -76,16 +74,19 @@ class _SigninScreenState extends State<SigninScreen> {
             return DashboardScreen();
           }
           
-          if(state is SignoutSuccessState){
+          if((state is SignoutSuccessState) || (state is SigninLoadingState) || (state is SigninFailureState)){
             return _signInForm(context);
           }
-          return CustomLoader();
+         
+          return Center(
+            child: Text("Error"),
+          );
         },
       ),
     );
   }
 
-  Widget _signInForm(BuildContext context) {
+  Widget _signInForm(BuildContext context){
     MediaQueryData mediaQuery = MediaQuery.of(context);
     return Form(
       key: _formKey,
@@ -172,7 +173,7 @@ class _SigninScreenState extends State<SigninScreen> {
                             final FormState formState = _formKey.currentState;
                             if (formState.validate()) {
                               formState.save();
-                              BlocProvider.of<SigninBloc>(context).add(SigninButtonPressedEvent(email: _emailController.text, password: _passwordController.text));
+                              widget.signinBloc.add(SigninButtonPressedEvent(email: _emailController.text, password: _passwordController.text));
                             }
                           },
                           child: Container(

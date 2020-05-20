@@ -4,8 +4,9 @@ import 'package:flutter/material.dart';
 
 class DevicesListScreen extends StatefulWidget {
   final GetDeviceDataOperationResult model;
+  final bool loadCard;
 
-  DevicesListScreen({Key key, this.model}) : super(key: key);
+  DevicesListScreen({Key key, this.model, this.loadCard}) : super(key: key);
 
   @override
   _DevicesListScreenState createState() => _DevicesListScreenState();
@@ -29,16 +30,28 @@ class _DevicesListScreenState extends State<DevicesListScreen> {
             Padding(
               padding: const EdgeInsets.only(top: 160.0),
               child: Column(
-                children: <Widget>[
-                  
-                  for (DeviceNodeEdge edge in widget.model.device.edges) DeviceCard(device: edge.node)
-                  
-                ],
+                children: widget.loadCard ?  _deviceCardLoadingList() : _deviceCardLoadedList(),
               ),
             ),
           ],
         ),
       ),
     );
+  }
+
+  List<DeviceCard> _deviceCardLoadedList(){
+    List<DeviceCard> items = [];
+    for (DeviceNodeEdge edge in widget.model.device.edges){
+      items.add(DeviceCard(device: edge.node));
+    }
+    return items;
+  }
+
+  List<DeviceCardLoading> _deviceCardLoadingList(){
+    List<DeviceCardLoading> items = [];
+    for (int i = 0; i < 3; i++){
+      items.add(DeviceCardLoading());
+    }
+    return items;
   }
 }

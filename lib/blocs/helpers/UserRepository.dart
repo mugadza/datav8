@@ -13,7 +13,11 @@ class UserRepository {
 
   Future<AuthenticationResult> authenticate({@required String email, @required String password}) async {
     MutationOptions _options = MutationOptions(
-      documentNode: gql(AuthenticationMutation.emailPasswordAuthenticationMutation(email, password))
+      documentNode: gql(AuthenticationMutation.emailPasswordAuthenticationMutation(email, password)),
+      variables: <String, dynamic>{
+        "nEmail": email,
+        "nPassword": password
+      }
     );
     QueryResult result = await _graphQLConfiguration.getGraphQLClient().mutate(_options);
     
@@ -22,6 +26,10 @@ class UserRepository {
     }
 
     GraphQLResponse<AuthenticationResult> graphQLResponse = GraphQLResponse(AuthenticationResult.fromMap, (result.data != null) ? result.data.data : null);
+
+    if(graphQLResponse.data.auth.accountErrors.isNotEmpty){
+      throw Exception("${graphQLResponse.data.auth.accountErrors.first.code}: ${graphQLResponse.data.auth.accountErrors.first.message}");
+    }
 
     return graphQLResponse.data;
   }

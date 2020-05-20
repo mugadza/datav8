@@ -2,7 +2,6 @@ import 'dart:async';
 
 
 import 'package:datav8/blocs/authentication/AuthenticationBloc.dart';
-import 'package:datav8/blocs/authentication/AuthenticationEvents.dart';
 import 'package:datav8/blocs/helpers/UserRepository.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/blocs/signin/SigninEvents.dart';
@@ -43,7 +42,11 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       try {
         AuthenticationResult authenticatedResult = await userRepository.authenticate(email: event.email, password: event.password);
         _authenticatedResultSubject.sink.add(authenticatedResult);
-        authenticationBloc.add(AuthenticatedEvent(token: authenticatedResult.auth.token));
+
+        await userRepository.persistToken(authenticatedResult.auth.token);
+        GetInitialApplicationDataResult result = await authenticationBloc.applicationRepository.getInitialApplicationData();
+        authenticationBloc.applicationBloc.initialApplicationDataResultSink.add(result);
+
         yield SigninSuccessState();
       } 
       catch (error) {

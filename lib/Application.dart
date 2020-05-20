@@ -58,11 +58,15 @@ class _ApplicationState extends State<Application> {
         BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
             if(state is AuthenticationUninitializedState || state is AuthenticationLoadingState){
-              return SplashScreen(authenticationBloc: BlocProvider.of<AuthenticationBloc>(context));
+              return SplashScreen(signinBloc: BlocProvider. of<SigninBloc>(context));
             }
 
             if(state is AuthenticationAuthenticatedState){
-              return DashboardScreen();//return Scaffold(body: Center(child: Text("LOAD DATA.")));
+              return DashboardScreen();
+            }
+
+            if (state is AuthenticationUnauthenticatedState){
+              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
