@@ -8,6 +8,8 @@ class DeviceDataQueries {
             node{
               imei
               unitName
+              unitAdminName
+              unitAdminPhoneNumber
               unitLocation{
                 suburb
                 city

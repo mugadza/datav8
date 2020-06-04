@@ -4,3 +4,4 @@ export './ApplicationTabIcon.dart';
 export './DeviceCard.dart';
 export './DeviceCardLoading.dart';
 export './WaveAppBar.dart';
+export './UserListView.dart';

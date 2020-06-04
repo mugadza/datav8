@@ -1,11 +1,12 @@
 import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/screens/helpers/helpers.dart';
 import 'package:datav8/screens/screens.dart';
+import 'package:datav8/screens/users/UserListScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileTab extends StatefulWidget {
-  ProfileTab({Key key}) : super(key: key);
+  final SigninBloc signinBloc;
+  ProfileTab({Key key, this.signinBloc}) : super(key: key);
 
   _ProfileTabState createState() => _ProfileTabState();
 }
@@ -26,31 +27,23 @@ class _ProfileTabState extends State<ProfileTab> {
             /// Create list for category
             ///
             Category(
-              txt: "Manage devices",
+              txt: "Manage customers",
               padding: 35.0,
-              image: "assets/image/icon/notification.png",
+              image: "assets/image/icon/setting.png",
               tap: () {
-                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_notification()));
+                Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => UserListScreen(signinBloc: widget.signinBloc)));
               },
             ),
             _line(context),
             Category(
-              txt: "Manage customers",
+              txt: "Settings",
               padding: 30.0,
               image: "assets/image/icon/setting.png",
               tap: () {
                 // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_settingAccount()));
               },
             ),
-            _line(context),
-            Category(
-              txt: "Help",
-              padding: 30.0,
-              image: "assets/image/icon/callcenter.png",
-              tap: () {
-                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_callCenter()));
-              },
-            ),
+
             _line(context),
             Category(
               txt: "About",
@@ -60,10 +53,27 @@ class _ProfileTabState extends State<ProfileTab> {
                 Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => AboutScreen()));
               },
             ),
+            
+            _line(context),
+            Category(
+              txt: "Help",
+              padding: 30.0,
+              image: "assets/image/icon/callcenter.png",
+              tap: () {
+                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_callCenter()));
+              },
+            ),
 
 
             _line(context),
-            _logout(context)
+            Category(
+              txt: "Logout",
+              padding: 30.0,
+              image: "assets/image/icon/setting.png",
+              tap: () {
+                widget.signinBloc.add(SignoutButtonPressedEvent());
+              },
+            )
           ],
         ),
       ),
@@ -84,35 +94,6 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   ///
-  /// Create logout action
-  ///
-  Widget _logout(BuildContext cxt){
-    return Padding(
-      padding: const EdgeInsets.only(left: 20.0, right: 20.0, top: 15.0),
-      child: InkWell(
-        onTap: (){
-          BlocProvider.of<SigninBloc>(cxt).add(SignoutButtonPressedEvent());
-        },
-        child: Container(
-          height: 50.0,
-          width: double.infinity,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.all(Radius.circular(50.0)),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Colors.blueGrey, Colors.blueGrey]
-            )
-          ),
-          child: Center(
-            child: Text("Sign Out", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w400, fontSize: 20.0, letterSpacing: 1.0)),
-          ),
-        ),
-      ),
-    );
-  }
-
-  ///
   /// Create profile widget
   ///
   Widget profile(BuildContext context) {
@@ -126,7 +107,7 @@ class _ProfileTabState extends State<ProfileTab> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(100.0)),
             border: Border.all(color: Colors.white, width: 2.0),
-            image: DecorationImage(image: AssetImage("assets/avatars/avatar-7.png"), fit: BoxFit.cover)
+            image: DecorationImage(image: (widget.signinBloc.authenticationResult.auth.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.signinBloc.authenticationResult.auth.user.avatar.url), fit: BoxFit.cover)
           ),
         ),
         SizedBox(width: 15.0),
@@ -135,16 +116,16 @@ class _ProfileTabState extends State<ProfileTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "Mbele Lebohang",
+              "${widget.signinBloc.authenticationResult.auth.user.firstName} ${widget.signinBloc.authenticationResult.auth.user.lastName}",
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w700,
                 fontSize: 17.0,
                 color: Colors.white
               ),
-            ),
+            ), 
             Text(
-              "lebohang.mbele@alumni.uct.ac.za",
+              widget.signinBloc.authenticationResult.auth.user.email,
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w300,

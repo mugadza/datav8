@@ -11,9 +11,6 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationBloc, ApplicationTab>(
-      condition: (previous, current){
-        return previous != current; 
-      },
       builder: (BuildContext context, ApplicationTab activeTab) {
         return Scaffold(
           body: getActiveTab(context, activeTab),
@@ -35,7 +32,7 @@ class DashboardScreen extends StatelessWidget {
         return DevicesTab();
 
       case ApplicationTab.PROFILE:
-        return ProfileTab();
+        return ProfileTab(signinBloc: BlocProvider.of<SigninBloc>(context));
 
       default:
         return Center(

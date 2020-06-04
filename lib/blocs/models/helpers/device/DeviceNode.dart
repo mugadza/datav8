@@ -9,6 +9,12 @@ class DeviceNode extends MapObject {
   String get unitName => map["unitName"] as String;
   set unitName(String value) => map["unitName"] = value;
 
+  String get unitAdminName => map["unitAdminName"] as String;
+  set unitAdminName(String value) => map["unitAdminName"] = value;
+
+  String get unitAdminPhoneNumber => map["unitAdminPhoneNumber"] as String;
+  set unitAdminPhoneNumber(String value) => map["unitAdminPhoneNumber"] = value;
+
   Address get unitLocation {
     if (map['unitLocation'] is Address) return map['unitLocation'] as Address;
     return map['unitLocation'] = Address.fromMap(map['unitLocation'] as Map<String, dynamic>);

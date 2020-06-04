@@ -10,6 +10,7 @@ class AuthenticationMutation {
           user{
             id
             homeDeviceImei
+            email
             firstName
             lastName
             role

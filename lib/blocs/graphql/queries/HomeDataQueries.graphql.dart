@@ -6,6 +6,9 @@ class HomeDataQueries {
         homeDevice{
           id
           imei
+          unitName
+          unitAdminName
+          unitAdminPhoneNumber
           ch1On
           ch2On
           ch3On

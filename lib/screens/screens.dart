@@ -7,6 +7,7 @@ export './signin/SigninScreen.dart';
 // Devices
 export './devices/DeviceScreen.dart';
 export './devices/DevicesListScreen.dart';
+export './devices/DeviceSettings.dart';
 
 // About
 export './about/AboutScreen.dart';

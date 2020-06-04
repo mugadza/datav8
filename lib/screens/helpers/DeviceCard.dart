@@ -46,21 +46,24 @@ class DeviceCard extends StatelessWidget {
                         padding: const EdgeInsets.only(top: 20.0, left: 15.0),
                         child: Row(
                           children: <Widget>[
-                            Container(
-                              height: 45,
-                              width: 45,
-                              padding: EdgeInsets.all(8),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(10)),
-                                gradient: LinearGradient(
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                  tileMode: TileMode.repeated,
-                                  colors: [Color(0xFF15EDED), Color(0xFF029CF5)]
-                                )
-                              ),
-                              child: Center(
-                                child: Icon(Icons.timeline, size: 25.0),
+                            InkWell(
+                              onTap: () => Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => DeviceSettings(device: device))),
+                              child: Container(
+                                height: 45,
+                                width: 45,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(10)),
+                                  gradient: LinearGradient(
+                                    begin: Alignment.topLeft,
+                                    end: Alignment.bottomRight,
+                                    tileMode: TileMode.repeated,
+                                    colors: [Color(0xFF15EDED), Color(0xFF029CF5)]
+                                  )
+                                ),
+                                child: Center(
+                                  child: Icon(Icons.settings, size: 25.0),
+                                ),
                               ),
                             ),
                             Padding(

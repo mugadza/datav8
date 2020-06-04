@@ -44,6 +44,7 @@ flutter:
   assets:
     - assets/image/logo_kl.png
     - assets/image/logo_dark_kl.png
+    - assets/image/placeholder255x255.png
     - assets/image/no_message.png
     - assets/image/no_message1.png
     - assets/image/no_message2.png

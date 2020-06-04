@@ -33,6 +33,9 @@ class ApplicationQueries {
               node{
                 id
                 imei
+                unitName
+                unitAdminName
+                unitAdminPhoneNumber
                 ch1On
                 ch2On
                 ch3On
@@ -93,6 +96,8 @@ class ApplicationQueries {
             ch4On
             ch5On
             unitName
+            unitAdminName
+            unitAdminPhoneNumber
             ch1Name
             ch2Name
             ch3Name
