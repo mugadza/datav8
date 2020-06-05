@@ -7,7 +7,28 @@ import 'package:datav8/screens/tabs/ProfileTab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class DashboardScreen extends StatelessWidget {
+
+class DashboardScreen extends StatefulWidget {
+  final BottomNavigationBloc bottomNavigationBloc;
+
+  DashboardScreen({@required this.bottomNavigationBloc});
+
+  @override
+  _DashboardScreenState createState() => _DashboardScreenState();
+}
+
+/// Component UI
+class _DashboardScreenState extends State<DashboardScreen> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayout);
+    super.initState();
+  }
+
+  _afterLayout(_) {
+    widget.bottomNavigationBloc.add(BottomNavigationTabUpdatedEvent(ApplicationTab.HOME));
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<BottomNavigationBloc, ApplicationTab>(

@@ -13,27 +13,18 @@ import 'package:rxdart/rxdart.dart';
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final UserRepository userRepository;
   final AuthenticationBloc authenticationBloc;
-  final BehaviorSubject<AuthenticationResult> _authenticatedResultSubject;
-  final BehaviorSubject<UserNode> _userNodeSubject;
 
   SigninBloc({@required this.userRepository, @required this.authenticationBloc})  
     : assert(userRepository != null),
-      assert(authenticationBloc != null),
-      _userNodeSubject = BehaviorSubject.seeded(null),
-      _authenticatedResultSubject = BehaviorSubject.seeded(null);
+      assert(authenticationBloc != null);
 
   SigninState get initialState => SigninInitialState();
-
-  AuthenticationResult get authenticationResult => _authenticatedResultSubject.value;
-
-  UserNode get userNode => _userNodeSubject.value;
 
   @override
   Stream<SigninState> mapEventToState(SigninEvent event) async* {
     bool hasToken = await userRepository.hasToken();
-    bool isSignOutEvent = event is SignoutButtonPressedEvent;
-    
-    if(!isSignOutEvent && hasToken){
+
+    if(!(event is SignoutButtonPressedEvent) && hasToken){
       yield SigninSuccessState();
     }
     else if (event is SigninButtonPressedEvent) {
@@ -41,11 +32,15 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
 
       try {
         AuthenticationResult authenticatedResult = await userRepository.authenticate(email: event.email, password: event.password);
-        _authenticatedResultSubject.sink.add(authenticatedResult);
-
         await userRepository.persistToken(authenticatedResult.auth.token);
-        GetInitialApplicationDataResult result = await authenticationBloc.applicationRepository.getInitialApplicationData();
-        authenticationBloc.applicationBloc.initialApplicationDataResultSink.add(result);
+
+        // TODO : get initial data
+        // GetInitialApplicationDataResult result = await authenticationBloc.applicationRepository.getInitialApplicationData();
+
+        authenticationBloc.applicationBloc.applicationData.homeDeviceSink.add(authenticatedResult.auth.user.homeDevice);
+
+        authenticationBloc.applicationBloc.applicationData.userSink.add(authenticatedResult.auth.user);
+        authenticationBloc.applicationBloc.applicationData.tokenAuthSink.add(authenticatedResult.auth);
 
         yield SigninSuccessState();
       } 
@@ -57,10 +52,5 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
       await userRepository.deleteToken();
       yield SignoutSuccessState();
     }
-  }
-
-  void dispose(){
-    _authenticatedResultSubject.close();
-    _userNodeSubject.close();
   }
 }

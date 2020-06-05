@@ -107,7 +107,7 @@ class _ProfileTabState extends State<ProfileTab> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(100.0)),
             border: Border.all(color: Colors.white, width: 2.0),
-            image: DecorationImage(image: (widget.signinBloc.authenticationResult.auth.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.signinBloc.authenticationResult.auth.user.avatar.url), fit: BoxFit.cover)
+            image: DecorationImage(image: (widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.avatar.url), fit: BoxFit.cover)
           ),
         ),
         SizedBox(width: 15.0),
@@ -116,7 +116,7 @@ class _ProfileTabState extends State<ProfileTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "${widget.signinBloc.authenticationResult.auth.user.firstName} ${widget.signinBloc.authenticationResult.auth.user.lastName}",
+              "${widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.firstName} ${widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.lastName}",
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w700,
@@ -125,7 +125,7 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
             ), 
             Text(
-              widget.signinBloc.authenticationResult.auth.user.email,
+              widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.email,
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w300,

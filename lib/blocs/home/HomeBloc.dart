@@ -20,8 +20,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   Stream<HomeState> mapEventToState(HomeEvent event) async* {
     if (event is HomeDataLoadingEvent) {
       yield HomeDataLoadingState(_deviceNodeFakeData);
-      if ( applicationBloc.hasInitialApplicationDataResult ){
-        yield HomeDataLoadingSuccessState(applicationBloc.initialApplicationDataResult.user.homeDevice);
+      if ( applicationBloc.applicationData.hasUser ){
+        yield HomeDataLoadingSuccessState(applicationBloc.applicationData.user.homeDevice);
       }
     }
   }

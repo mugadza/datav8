@@ -71,7 +71,7 @@ class _SigninScreenState extends State<SigninScreen> {
           }
 
           if(state is SigninSuccessState){
-            return DashboardScreen();
+            return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
           }
           
           if((state is SignoutSuccessState) || (state is SigninLoadingState) || (state is SigninFailureState)){
@@ -79,7 +79,7 @@ class _SigninScreenState extends State<SigninScreen> {
           }
          
           return Center(
-            child: Text("Error"),
+            child: Text("Sign in Error"),
           );
         },
       ),
@@ -224,6 +224,7 @@ class _SigninScreenState extends State<SigninScreen> {
               obscureText: obscure,
               autocorrect: false,
               autofocus: false,
+              textInputAction: TextInputAction.next,
               validator: (input) {
                 if (input.isEmpty) {
                   return validationMessage;

@@ -12,10 +12,14 @@ class SplashScreen extends StatefulWidget {
 
 /// Component UI
 class _SplashScreenState extends State<SplashScreen> {
+  /// Declare startTime to InitState
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback(_afterLayoutVerifyUserAuthentication);
+    super.initState();
+  }
 
-  /// Setting duration in splash screen
-  verifyUserAuthentication() async {
-    widget.signinBloc.authenticationBloc.userRepository.deleteToken().then((_) {});
+  _afterLayoutVerifyUserAuthentication(_) {
     widget.signinBloc.authenticationBloc.userRepository.hasToken().then((value){
       if (value){
         widget.signinBloc.authenticationBloc.userRepository.getToken().then((value){
@@ -26,13 +30,6 @@ class _SplashScreenState extends State<SplashScreen> {
         widget.signinBloc.authenticationBloc.add(UnauthenticatedEvent());
       }
     });
-  }
-
-   /// Declare startTime to InitState
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => verifyUserAuthentication());
   }
 
   @override

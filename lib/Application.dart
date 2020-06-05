@@ -1,3 +1,4 @@
+import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -58,11 +59,11 @@ class _ApplicationState extends State<Application> {
         BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
             if(state is AuthenticationUninitializedState || state is AuthenticationLoadingState){
-              return SplashScreen(signinBloc: BlocProvider. of<SigninBloc>(context));
+              return SplashScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
             if(state is AuthenticationAuthenticatedState){
-              return DashboardScreen();
+              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
             }
 
             if (state is AuthenticationUnauthenticatedState){
@@ -72,21 +73,6 @@ class _ApplicationState extends State<Application> {
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
           },  
         ),
-
-
-
-        // BlocBuilder<AuthenticationBloc, AuthenticationState>(
-        //   builder: (context, state){
-        //     if (state is AuthenticationAuthenticatedState){
-        //       return DashboardScreen();
-        //     }
-        //     if ((state is AuthenticationUnauthenticatedState) || (state is AuthenticationUninitializedState)){
-        //       return SigninScreen();
-        //     }
-
-        //     return Container(child: Center(child: Text("Loading")));
-        //   },  
-        // ),
       ),
       themeMode: ThemeMode.dark,
       darkTheme: _applicationTheme.data,

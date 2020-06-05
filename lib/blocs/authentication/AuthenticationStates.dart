@@ -12,12 +12,12 @@ class AuthenticationUninitializedState extends AuthenticationState {
 }
 
 class AuthenticationAuthenticatedState extends AuthenticationState {
-  final GetInitialApplicationDataResult initialApplicationDataResult;
+  final UserNode user;
 
-  AuthenticationAuthenticatedState(this.initialApplicationDataResult);
+  AuthenticationAuthenticatedState(this.user);
   
   @override
-  String toString() => 'AuthenticationAuthenticatedState';
+  String toString() => 'AuthenticationAuthenticatedState: {$user}';
 }
 
 class AuthenticationUnauthenticatedState extends AuthenticationState {

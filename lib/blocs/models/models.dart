@@ -15,6 +15,7 @@ export './authentication/AuthenticationResult.dart';
 
 // Others
 export './GetInitialApplicationDataResult.dart';
+export './ApplicationData.dart';
 
 // Helpers
 export './helpers/GraphQLResponse.dart';
