@@ -8,7 +8,6 @@ import 'package:datav8/blocs/signin/SigninEvents.dart';
 import 'package:datav8/blocs/signin/SigninStates.dart';
 import 'package:meta/meta.dart';
 import 'package:bloc/bloc.dart';
-import 'package:rxdart/rxdart.dart';
 
 class SigninBloc extends Bloc<SigninEvent, SigninState> {
   final UserRepository userRepository;
@@ -34,11 +33,7 @@ class SigninBloc extends Bloc<SigninEvent, SigninState> {
         AuthenticationResult authenticatedResult = await userRepository.authenticate(email: event.email, password: event.password);
         await userRepository.persistToken(authenticatedResult.auth.token);
 
-        // TODO : get initial data
-        // GetInitialApplicationDataResult result = await authenticationBloc.applicationRepository.getInitialApplicationData();
-
         authenticationBloc.applicationBloc.applicationData.homeDeviceSink.add(authenticatedResult.auth.user.homeDevice);
-
         authenticationBloc.applicationBloc.applicationData.userSink.add(authenticatedResult.auth.user);
         authenticationBloc.applicationBloc.applicationData.tokenAuthSink.add(authenticatedResult.auth);
 
