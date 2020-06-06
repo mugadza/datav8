@@ -50,12 +50,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return HomeTab();
 
       case ApplicationTab.DEVICES:
+        // TODO : if the device bloc current state is error, reload
         return DevicesTab();
 
       case ApplicationTab.PROFILE:
         return ProfileTab(signinBloc: BlocProvider.of<SigninBloc>(context));
 
       default:
+      // TODO : implement a better error screen
         return Center(
           child: Text("ERROR"),
         );

@@ -18,6 +18,7 @@ class DevicesTab extends StatelessWidget {
           return DevicesListScreen(model: state.model, loadCard: false);
         }
         else {
+          // TODO : implement a better error screen
           return Center(
             child: Text("Error"),
           ); // Error

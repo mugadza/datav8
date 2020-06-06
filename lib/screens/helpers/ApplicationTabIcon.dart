@@ -9,10 +9,10 @@ class ApplicationTabIcon {
         return Icon(Icons.home, color: Colors.grey, key: ApplicationKeys.applicationHomeTab);
 
       case ApplicationTab.DEVICES:
-        return Icon(Icons.device_hub, color: Colors.grey, key: ApplicationKeys.applicationDeviceTab);
+        return Icon(Icons.ac_unit, color: Colors.grey, key: ApplicationKeys.applicationDeviceTab);
 
       case ApplicationTab.PROFILE:
-        return Icon(Icons.settings, color: Colors.grey, key: ApplicationKeys.applicationProfileTab);
+        return Icon(Icons.account_circle, color: Colors.grey, key: ApplicationKeys.applicationProfileTab);
       default:
         // Error screen
         return Icon(Icons.error);

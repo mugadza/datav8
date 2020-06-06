@@ -65,4 +65,12 @@ flutter:
     - assets/image/loginHeader.png
     - assets/image/buildingMenu.png
 
+    - assets/icon/icon-settings.png
+    - assets/icon/icon-manager.png
+    - assets/icon/icon-management.png
+    - assets/icon/icon-blueprint.png
+    - assets/icon/icon-smartphone-info.png
+    - assets/icon/icon-power.png
+    - assets/icon/icon-info.png
+
   

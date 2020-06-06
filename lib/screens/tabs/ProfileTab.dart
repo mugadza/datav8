@@ -29,47 +29,42 @@ class _ProfileTabState extends State<ProfileTab> {
             Category(
               txt: "Manage customers",
               padding: 35.0,
-              image: "assets/image/icon/setting.png",
+              image: "assets/icon/icon-management.png",
               tap: () {
-                Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => UserListScreen(signinBloc: widget.signinBloc)));
+                print("Coming soon :  see UserListScreen(signinBloc: widget.signinBloc)");
               },
             ),
             _line(context),
             Category(
               txt: "Settings",
               padding: 30.0,
-              image: "assets/image/icon/setting.png",
-              tap: () {
-                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_settingAccount()));
-              },
+              image: "assets/icon/icon-settings.png",
+              tap: () => print("Coming soon"),
             ),
 
             _line(context),
             Category(
               txt: "About",
               padding: 30.0,
-              image: "assets/image/icon/aboutapp.png",
+              image: "assets/icon/icon-smartphone-info.png",
               tap: () {
                 Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => AboutScreen()));
-              },
+              }
             ),
-            
+
             _line(context),
             Category(
               txt: "Help",
               padding: 30.0,
-              image: "assets/image/icon/callcenter.png",
-              tap: () {
-                // Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => new T4_callCenter()));
-              },
+              image: "assets/icon/icon-info.png",
+              tap: () => print("Coming soon"),
             ),
-
 
             _line(context),
             Category(
               txt: "Logout",
               padding: 30.0,
-              image: "assets/image/icon/setting.png",
+              image: "assets/icon/icon-power.png",
               tap: () {
                 widget.signinBloc.add(SignoutButtonPressedEvent());
               },
@@ -161,7 +156,7 @@ class Category extends StatelessWidget {
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: padding),
-                  child: Image.asset(image, height: 25.0, width: 30, color: Color(0xFF15EDED)),
+                  child: Image.asset(image, width: 30, color: Color(0xFF15EDED)),
                 ),
                 Text(
                   txt,
