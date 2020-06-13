@@ -1,7 +1,8 @@
 
 import 'package:datav8/blocs/blocs.dart';
-import 'package:datav8/screens/signin/SigninScreen.dart';
+import 'package:datav8/screens/screens.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class SplashScreen extends StatefulWidget {
   final SigninBloc signinBloc;
@@ -13,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 
 /// Component UI
 class _SplashScreenState extends State<SplashScreen> {
-  /// Declare startTime to InitState
+
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback(_afterLayoutVerifyUserAuthentication);
@@ -35,6 +36,23 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
+    return  BlocBuilder<SigninBloc, SigninState>(
+      bloc: widget.signinBloc,
+      builder: (context, state){
+        if(state is SigninSuccessState){
+          return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
+        }
+
+        if((state is SignoutSuccessState) || (state is SigninLoadingState) || (state is SigninFailureState)){
+          return SigninScreen(signinBloc: widget.signinBloc);
+        }
+
+        return _splashWidget(context);
+      },
+    );
+  }
+
+  Widget _splashWidget(BuildContext context){
     return Scaffold(
       backgroundColor: Colors.white,
       body: Stack(
@@ -44,10 +62,10 @@ class _SplashScreenState extends State<SplashScreen> {
           ),
           Container(
             decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [Color.fromRGBO(0, 0, 0, 0.1), Color.fromRGBO(0, 0, 0, 0.1)],
-                begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter
-              )
+                gradient: LinearGradient(
+                    colors: [Color.fromRGBO(0, 0, 0, 0.1), Color.fromRGBO(0, 0, 0, 0.1)],
+                    begin: FractionalOffset.topCenter, end: FractionalOffset.bottomCenter
+                )
             ),
             child: Center(
               child: Container(
@@ -63,11 +81,11 @@ class _SplashScreenState extends State<SplashScreen> {
                           child: Text(
                             "DATA-V8",
                             style: TextStyle(
-                              fontFamily: "Sans",
-                              color: Colors.white,
-                              fontSize: 32.0,
-                              fontWeight: FontWeight.w300,
-                              letterSpacing: 3.9
+                                fontFamily: "Sans",
+                                color: Colors.white,
+                                fontSize: 32.0,
+                                fontWeight: FontWeight.w300,
+                                letterSpacing: 3.9
                             ),
                           ),
                         ),

@@ -18,7 +18,7 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       : assert(userRepository != null), assert(applicationRepository != null), assert(applicationBloc != null);
 
   @override
-  AuthenticationState get initialState => AuthenticationUninitializedState();
+  AuthenticationState get initialState => AuthenticationInitialState();
 
   @override
   Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async* {

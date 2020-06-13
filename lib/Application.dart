@@ -57,16 +57,16 @@ class _ApplicationState extends State<Application> {
         child: 
         BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
-            if(state is AuthenticationUninitializedState || state is AuthenticationLoadingState){
+            if(state is AuthenticationInitialState || state is AuthenticationLoadingState){
               return SplashScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
-//            if(state is AuthenticationAuthenticatedState){
-//              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
-//            }
+            if(state is AuthenticationAuthenticatedState){
+              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
+            }
 
-            if((state is AuthenticationUnauthenticatedState) || (state is AuthenticationAuthenticatedState)){
-              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context), authenticated: (state is AuthenticationAuthenticatedState));
+            if(state is AuthenticationUnauthenticatedState){
+              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));

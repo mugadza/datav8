@@ -1,7 +1,6 @@
 import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/screens/helpers/helpers.dart';
 import 'package:datav8/screens/screens.dart';
-import 'package:datav8/screens/users/UserListScreen.dart';
 import 'package:flutter/material.dart';
 
 class ProfileTab extends StatefulWidget {
