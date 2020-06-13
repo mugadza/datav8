@@ -67,6 +67,8 @@ class _ProfileTabState extends State<ProfileTab> {
               image: "assets/icon/icon-power.png",
               tap: () {
                 widget.signinBloc.add(SignoutButtonPressedEvent());
+                // TODO : When the app is opened without sigining in(previously signed in and saved the token),
+                // the signin bloc is no initialized/built. This leads to this not being able to be called when clicking this
               },
             )
           ],

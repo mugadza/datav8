@@ -8,7 +8,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 
 class SigninScreen extends StatefulWidget {
   final SigninBloc signinBloc;
-  const SigninScreen({Key key, @required this.signinBloc}) : super(key: key);
+  final bool authenticated;
+  const SigninScreen({Key key, @required this.signinBloc, @required this.authenticated}) : super(key: key);
   @override
   _SigninScreenState createState() => _SigninScreenState();
 }
@@ -73,7 +74,7 @@ class _SigninScreenState extends State<SigninScreen> {
           if(state is SigninSuccessState){
             return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
           }
-          
+
           if((state is SignoutSuccessState) || (state is SigninLoadingState) || (state is SigninFailureState)){
             return _signInForm(context);
           }

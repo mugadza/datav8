@@ -1,5 +1,6 @@
 
 import 'package:datav8/blocs/blocs.dart';
+import 'package:datav8/screens/signin/SigninScreen.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {

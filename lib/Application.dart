@@ -61,12 +61,12 @@ class _ApplicationState extends State<Application> {
               return SplashScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
-            if(state is AuthenticationAuthenticatedState){
-              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
-            }
+//            if(state is AuthenticationAuthenticatedState){
+//              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
+//            }
 
-            if (state is AuthenticationUnauthenticatedState){
-              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
+            if((state is AuthenticationUnauthenticatedState) || (state is AuthenticationAuthenticatedState)){
+              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context), authenticated: (state is AuthenticationAuthenticatedState));
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
