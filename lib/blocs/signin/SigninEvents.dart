@@ -24,12 +24,3 @@ class SigninButtonPressedEvent extends SigninEvent {
   String toString() => 'SigninButtonPressedEvent { email: $email, password: $password }';
 }
 
-class SigninInitializedEvent extends SigninEvent {
-  @override
-  String toString() => 'SigninInitializedEvent';
-}
-
-class SignoutButtonPressedEvent extends SigninEvent {
-  @override
-  String toString() => 'SignoutButtonPressedEvent';
-}

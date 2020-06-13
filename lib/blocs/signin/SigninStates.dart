@@ -18,16 +18,6 @@ class SigninLoadingState extends SigninState {
   String toString() => 'SigninLoadingState';
 }
 
-class SigninSuccessState extends SigninState {
-  @override
-  String toString() => 'SigninSuccessState';
-}
-
-class SignoutSuccessState extends SigninState {
-  @override
-  String toString() => 'SignoutSuccessState';
-}
-
 class SigninFailureState extends SigninState {
   final String error;
 

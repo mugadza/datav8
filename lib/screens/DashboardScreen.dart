@@ -9,10 +9,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 
 class DashboardScreen extends StatefulWidget {
-  final BottomNavigationBloc bottomNavigationBloc;
-
-  DashboardScreen({@required this.bottomNavigationBloc});
-
+  final UserNode user;
+  const DashboardScreen({Key key, @required this.user}) : super(key: key);
   @override
   _DashboardScreenState createState() => _DashboardScreenState();
 }
@@ -26,7 +24,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
   }
 
   _afterLayout(_) {
-    widget.bottomNavigationBloc.add(BottomNavigationTabUpdatedEvent(ApplicationTab.HOME));
+    BlocProvider.of<BottomNavigationBloc>(context).add(BottomNavigationTabUpdatedEvent(ApplicationTab.HOME));
   }
 
   @override
@@ -34,7 +32,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     return BlocBuilder<BottomNavigationBloc, ApplicationTab>(
       builder: (BuildContext context, ApplicationTab activeTab) {
         return Scaffold(
-          body: getActiveTab(context, activeTab),
+          body: _getActiveTab(context, activeTab),
           bottomNavigationBar: BottomNavigationSelector(
             activeApplicationTab: activeTab,
             onApplicationTabSelected: (applicationTab) => BlocProvider.of<BottomNavigationBloc>(context).add(BottomNavigationTabUpdatedEvent(applicationTab)),
@@ -44,7 +42,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
-  Widget getActiveTab(BuildContext context, ApplicationTab activeTab) {
+  Widget _getActiveTab(BuildContext context, ApplicationTab activeTab) {
     switch (activeTab) {
       case ApplicationTab.HOME:
         return HomeTab();
@@ -54,7 +52,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
         return DevicesTab();
 
       case ApplicationTab.PROFILE:
-        return ProfileTab(signinBloc: BlocProvider.of<SigninBloc>(context));
+        return ProfileTab(user: widget.user);
 
       default:
       // TODO : implement a better error screen

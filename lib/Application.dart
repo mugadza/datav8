@@ -13,6 +13,7 @@ class Application extends StatefulWidget{
 }
 
 class _ApplicationState extends State<Application> {
+
   @override
   Widget build(BuildContext context) {
 
@@ -55,19 +56,22 @@ class _ApplicationState extends State<Application> {
             create: (context) => SigninBloc(userRepository: _userRepository, authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
           )
         ], 
-        child: 
-        BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
+            if(state is AuthenticationInitialState){
+              BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationInitializedEvent());
+            }
+
             if(state is AuthenticationInitialState || state is AuthenticationLoadingState){
               return SplashScreen();
             }
 
             if(state is AuthenticationSuccessState){
-              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
+              return DashboardScreen(user: state.user);
             }
 
             if(state is AuthenticationFailureState){
-              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
+              return SigninScreen();
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));

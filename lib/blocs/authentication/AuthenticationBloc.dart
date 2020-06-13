@@ -22,13 +22,13 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
 
   @override
   Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async* {
-
     if ( event is AuthenticationInitializedEvent ) {
       bool hasToken = await userRepository.hasToken();
       if( hasToken ) {
         yield AuthenticationLoadingState();
         GetInitialApplicationDataResult result = await applicationRepository.getInitialApplicationData();
         applicationBloc.applicationData.userSink.add(result.user);
+        applicationBloc.applicationData.homeDeviceSink.add(result.user.homeDevice);
         yield AuthenticationSuccessState(result.user);
       }
       else{
