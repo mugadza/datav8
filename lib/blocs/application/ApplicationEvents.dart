@@ -5,7 +5,6 @@ abstract class ApplicationEvent extends Equatable{
 }
 
 class ApplicationStartedEvent extends ApplicationEvent {
-
   const ApplicationStartedEvent();
 
   @override

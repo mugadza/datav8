@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/blocs.dart';
+import 'blocs/models/models.dart';
 
 class Application extends StatefulWidget{
   @override
@@ -58,19 +59,19 @@ class _ApplicationState extends State<Application> {
         BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
             if(state is AuthenticationInitialState || state is AuthenticationLoadingState){
-              return SplashScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
+              return SplashScreen();
             }
 
-            if(state is AuthenticationAuthenticatedState){
+            if(state is AuthenticationSuccessState){
               return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
             }
 
-            if(state is AuthenticationUnauthenticatedState){
+            if(state is AuthenticationFailureState){
               return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
-          },  
+          },
         ),
       ),
       themeMode: ThemeMode.dark,

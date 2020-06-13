@@ -11,18 +11,25 @@ class AuthenticationInitialState extends AuthenticationState {
   String toString() => 'AuthenticationInitialState';
 }
 
-class AuthenticationAuthenticatedState extends AuthenticationState {
+class AuthenticationSuccessState extends AuthenticationState {
   final UserNode user;
 
-  AuthenticationAuthenticatedState(this.user);
+  AuthenticationSuccessState(this.user);
   
   @override
-  String toString() => 'AuthenticationAuthenticatedState: {$user}';
+  String toString() => 'AuthenticationSuccessState';
 }
 
-class AuthenticationUnauthenticatedState extends AuthenticationState {
+class AuthenticationFailureState extends AuthenticationState {
+  final AuthenticationError error;
+
+  AuthenticationFailureState(this.error);
+
   @override
-  String toString() => 'AuthenticationUnauthenticatedState';
+  List<Object> get props => [error];
+
+  @override
+  String toString() => 'AuthenticationFailureState: { error: $error }';
 }
 
 class AuthenticationLoadingState extends AuthenticationState {
