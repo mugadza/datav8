@@ -1,5 +1,6 @@
 // Errors
 export './errors/AccountError.dart';
+export './errors/AuthenticationError.dart';
 
 // Navigation
 export './navigation/ApplicationTab.dart';

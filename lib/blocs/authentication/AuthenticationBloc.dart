@@ -18,25 +18,31 @@ class AuthenticationBloc extends Bloc<AuthenticationEvent, AuthenticationState> 
       : assert(userRepository != null), assert(applicationRepository != null), assert(applicationBloc != null);
 
   @override
-  AuthenticationState get initialState => AuthenticationUninitializedState();
+  AuthenticationState get initialState => AuthenticationInitialState();
 
   @override
   Stream<AuthenticationState> mapEventToState(AuthenticationEvent event) async* {
-    bool hasToken = await userRepository.hasToken();
-
-    if ( hasToken || (event is AuthenticatedEvent) )  {
-
-      if (event is AuthenticatedEvent) {
+    if ( event is AuthenticationInitializedEvent ) {
+      bool hasToken = await userRepository.hasToken();
+      if( hasToken ) {
         yield AuthenticationLoadingState();
-        await userRepository.persistToken(event.token);
+        GetInitialApplicationDataResult result = await applicationRepository.getInitialApplicationData();
+        applicationBloc.applicationData.userSink.add(result.user);
+        applicationBloc.applicationData.homeDeviceSink.add(result.user.homeDevice);
+        yield AuthenticationSuccessState(result.user);
       }
-
-      GetInitialApplicationDataResult result = await applicationRepository.getInitialApplicationData();
-      applicationBloc.applicationData.userSink.add(result.user);
-      yield AuthenticationAuthenticatedState(result.user);
+      else{
+        yield AuthenticationFailureState(AuthenticationError.TOKEN_DOES_NOT_EXIST);
+      }
     }
-    else{
-      yield AuthenticationUnauthenticatedState();
+
+    if (event is AuthenticationSuccessEvent )  {
+      yield AuthenticationSuccessState(event.user);
+    }
+
+    if (event is AuthenticationDeleteEvent) {
+      await userRepository.deleteToken();
+      yield AuthenticationFailureState(AuthenticationError.TOKEN_DELETED_USER_SIGNOUT);
     }
   }
 }

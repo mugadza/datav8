@@ -1,12 +1,13 @@
 import 'package:datav8/blocs/blocs.dart';
+import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/screens/helpers/helpers.dart';
 import 'package:datav8/screens/screens.dart';
-import 'package:datav8/screens/users/UserListScreen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ProfileTab extends StatefulWidget {
-  final SigninBloc signinBloc;
-  ProfileTab({Key key, this.signinBloc}) : super(key: key);
+  final UserNode user;
+  ProfileTab({Key key, @required this.user}) : super(key: key);
 
   _ProfileTabState createState() => _ProfileTabState();
 }
@@ -65,9 +66,7 @@ class _ProfileTabState extends State<ProfileTab> {
               txt: "Logout",
               padding: 30.0,
               image: "assets/icon/icon-power.png",
-              tap: () {
-                widget.signinBloc.add(SignoutButtonPressedEvent());
-              },
+              tap: () => BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationDeleteEvent()),
             )
           ],
         ),
@@ -76,7 +75,7 @@ class _ProfileTabState extends State<ProfileTab> {
   }
 
   ///
-  /// Create line devider widget
+  /// Create line divider widget
   ///
   Widget _line(BuildContext context) {
     return Padding(
@@ -102,7 +101,7 @@ class _ProfileTabState extends State<ProfileTab> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(100.0)),
             border: Border.all(color: Colors.white, width: 2.0),
-            image: DecorationImage(image: (widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.avatar.url), fit: BoxFit.cover)
+            image: DecorationImage(image: (widget.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.user.avatar.url), fit: BoxFit.cover)
           ),
         ),
         SizedBox(width: 15.0),
@@ -111,7 +110,7 @@ class _ProfileTabState extends State<ProfileTab> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Text(
-              "${widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.firstName} ${widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.lastName}",
+              "${widget.user.firstName} ${widget.user.lastName}",
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w700,
@@ -120,7 +119,7 @@ class _ProfileTabState extends State<ProfileTab> {
               ),
             ), 
             Text(
-              widget.signinBloc.authenticationBloc.applicationBloc.applicationData.user.email,
+              widget.user.email,
               style: TextStyle(
                 fontFamily: "Popins",
                 fontWeight: FontWeight.w300,

@@ -6,23 +6,30 @@ abstract class AuthenticationState extends Equatable {
   List<Object> get props => [];
 }
 
-class AuthenticationUninitializedState extends AuthenticationState {
+class AuthenticationInitialState extends AuthenticationState {
   @override
-  String toString() => 'AuthenticationUninitializedState';
+  String toString() => 'AuthenticationInitialState';
 }
 
-class AuthenticationAuthenticatedState extends AuthenticationState {
+class AuthenticationSuccessState extends AuthenticationState {
   final UserNode user;
 
-  AuthenticationAuthenticatedState(this.user);
+  AuthenticationSuccessState(this.user);
   
   @override
-  String toString() => 'AuthenticationAuthenticatedState: {$user}';
+  String toString() => 'AuthenticationSuccessState';
 }
 
-class AuthenticationUnauthenticatedState extends AuthenticationState {
+class AuthenticationFailureState extends AuthenticationState {
+  final AuthenticationError error;
+
+  AuthenticationFailureState(this.error);
+
   @override
-  String toString() => 'AuthenticationUnauthenticatedState';
+  List<Object> get props => [error];
+
+  @override
+  String toString() => 'AuthenticationFailureState: { error: $error }';
 }
 
 class AuthenticationLoadingState extends AuthenticationState {

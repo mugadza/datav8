@@ -1,37 +1,11 @@
-
-import 'package:datav8/blocs/blocs.dart';
 import 'package:flutter/material.dart';
 
 class SplashScreen extends StatefulWidget {
-  final SigninBloc signinBloc;
-  SplashScreen({@required this.signinBloc});
-
   @override
   _SplashScreenState createState() => _SplashScreenState();
 }
 
-/// Component UI
 class _SplashScreenState extends State<SplashScreen> {
-  /// Declare startTime to InitState
-  @override
-  void initState() {
-    WidgetsBinding.instance.addPostFrameCallback(_afterLayoutVerifyUserAuthentication);
-    super.initState();
-  }
-
-  _afterLayoutVerifyUserAuthentication(_) {
-    widget.signinBloc.authenticationBloc.userRepository.hasToken().then((value){
-      if (value){
-        widget.signinBloc.authenticationBloc.userRepository.getToken().then((value){
-          widget.signinBloc.authenticationBloc.add(AuthenticatedEvent(token: value));
-        });
-      }
-      else{
-        widget.signinBloc.authenticationBloc.add(UnauthenticatedEvent());
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/blocs.dart';
+import 'blocs/models/models.dart';
 
 class Application extends StatefulWidget{
   @override
@@ -12,6 +13,7 @@ class Application extends StatefulWidget{
 }
 
 class _ApplicationState extends State<Application> {
+
   @override
   Widget build(BuildContext context) {
 
@@ -54,23 +56,26 @@ class _ApplicationState extends State<Application> {
             create: (context) => SigninBloc(userRepository: _userRepository, authenticationBloc: BlocProvider.of<AuthenticationBloc>(context)),
           )
         ], 
-        child: 
-        BlocBuilder<AuthenticationBloc, AuthenticationState>(
+        child: BlocBuilder<AuthenticationBloc, AuthenticationState>(
           builder: (context, state){
-            if(state is AuthenticationUninitializedState || state is AuthenticationLoadingState){
-              return SplashScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
+            if(state is AuthenticationInitialState){
+              BlocProvider.of<AuthenticationBloc>(context).add(AuthenticationInitializedEvent());
             }
 
-            if(state is AuthenticationAuthenticatedState){
-              return DashboardScreen(bottomNavigationBloc: BlocProvider.of<BottomNavigationBloc>(context));
+            if(state is AuthenticationInitialState || state is AuthenticationLoadingState){
+              return SplashScreen();
             }
 
-            if (state is AuthenticationUnauthenticatedState){
-              return SigninScreen(signinBloc: BlocProvider.of<SigninBloc>(context));
+            if(state is AuthenticationSuccessState){
+              return DashboardScreen(user: state.user);
+            }
+
+            if(state is AuthenticationFailureState){
+              return SigninScreen();
             }
 
             return Scaffold(body: Center(child: Text("12345: Some thing went wrong.")));
-          },  
+          },
         ),
       ),
       themeMode: ThemeMode.dark,

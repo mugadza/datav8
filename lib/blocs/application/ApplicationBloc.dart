@@ -1,7 +1,6 @@
 import 'dart:async';
 
-import 'package:datav8/blocs/application/ApplicationEvents.dart';
-import 'package:datav8/blocs/application/ApplicationStates.dart';
+import 'package:datav8/blocs/blocs.dart';
 import 'package:datav8/blocs/models/models.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
