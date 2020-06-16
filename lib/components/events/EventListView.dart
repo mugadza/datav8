@@ -2,6 +2,7 @@ import 'package:datav8/blocs/models/models.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
+import 'package:intl/intl.dart';
 
 class EventListView extends StatefulWidget {
   final ChannelCardConfiguration channelCardConfiguration;
@@ -70,6 +71,8 @@ class _EventListViewState extends State<EventListView> {
 
 
   Widget listPriceGainers(double reading, EventNode eventNode, BuildContext ctx) {
+    DateFormat timeFormat = DateFormat.Hm();
+    DateFormat dateFormat = DateFormat.yMMMd();
     return Padding(
       padding: const EdgeInsets.only(left: 12.0, top: 20.0),
       child: InkWell(
@@ -85,12 +88,11 @@ class _EventListViewState extends State<EventListView> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: <Widget>[
-                  Text(
-                    eventNode.deviceTimeDate.hour.toString()+"0:0"+eventNode.deviceTimeDate.minute.toString()+":0"+eventNode.deviceTimeDate.second.toString(),
+                  Text(timeFormat.format(eventNode.deviceTimeDate),
                     style: TextStyle(fontFamily: "Popins", fontSize: 13),
                   ),
                   Text(
-                    " / "+eventNode.deviceTimeDate.day.toString()+" Apr "+eventNode.deviceTimeDate.year.toString(),
+                    " / "+ dateFormat.format(eventNode.deviceTimeDate),
                     style: TextStyle(fontFamily: "Popins", fontSize: 8, color: Theme.of(ctx).hintColor),
                   )
                 ],

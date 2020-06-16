@@ -122,7 +122,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
 
   Widget _channelEventTabLists(BuildContext context){
     return (listChannelCardConfiguration.isEmpty) ? Container() : Container(
-      height: 760.0,
+      height: 1500.0,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         crossAxisAlignment: CrossAxisAlignment.start,

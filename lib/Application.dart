@@ -5,7 +5,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 
 import 'blocs/blocs.dart';
-import 'blocs/models/models.dart';
 
 class Application extends StatefulWidget{
   @override
