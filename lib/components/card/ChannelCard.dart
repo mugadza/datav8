@@ -1,4 +1,5 @@
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
+import 'package:datav8/screens/devices/ChannelDetailsScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 
@@ -14,6 +15,7 @@ class ChannelCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // -------- Tapping card
+          Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => ChannelDetailsScreen(item: item)));
         },
         child: Container(
           height: 70.0,
