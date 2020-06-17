@@ -5,7 +5,8 @@ import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 class ChannelCard extends StatelessWidget {
   final ChannelCardConfiguration item;
-  ChannelCard(this.item);
+
+  ChannelCard({@required this.item});
   
   @override
   Widget build(BuildContext context) {

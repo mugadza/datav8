@@ -20,6 +20,7 @@ dependencies:
   flutter_spinkit: ^4.1.2+1
   rxdart: ^0.23.0
   graphql: ^3.0.0
+  tuple: ^1.0.3
   intl: ^0.16.1
   flutter:
     sdk: flutter

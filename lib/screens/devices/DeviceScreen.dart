@@ -180,7 +180,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       mainAxisSpacing: 8.0,
       children: List.generate(
         listChannelCardConfiguration.length,
-        (index) => ChannelCard(listChannelCardConfiguration[index]),
+        (index) => ChannelCard(item: listChannelCardConfiguration[index]),
       ),
       staggeredTiles: List.generate(
         listChannelCardConfiguration.length, 
@@ -233,6 +233,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       listChannelTabHeading.add(_buildTabHeader("CH1"));
       Color cardColor = (widget.device.alertStateCh1) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
+        channel: ChannelNumber.CHANNEL1,
         name: widget.device.ch1Name,
         chartColor: cardColor,
         latestChannelValue: firstNode.ch1.toStringAsFixed(4),
@@ -248,6 +249,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       listChannelTabHeading.add(_buildTabHeader("CH2"));
       Color cardColor = (widget.device.alertStateCh2) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
+        channel: ChannelNumber.CHANNEL2,
         name: widget.device.ch2Name,
         chartColor: cardColor,
         latestChannelValue: firstNode.ch2.toStringAsFixed(4),
@@ -263,6 +265,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       listChannelTabHeading.add(_buildTabHeader("CH3"));
       Color cardColor = (widget.device.alertStateCh3) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
+        channel: ChannelNumber.CHANNEL3,
         name: widget.device.ch3Name,
         chartColor: cardColor,
         latestChannelValue: firstNode.ch3.toStringAsFixed(4),
@@ -278,6 +281,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       listChannelTabHeading.add(_buildTabHeader("CH4"));
       Color cardColor = (widget.device.alertStateCh4) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
+        channel: ChannelNumber.CHANNEL4,
         name: widget.device.ch4Name,
         chartColor: cardColor,
         latestChannelValue: firstNode.ch4.toStringAsFixed(4),
@@ -293,6 +297,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
       listChannelTabHeading.add(_buildTabHeader("CH5"));
       Color cardColor = (widget.device.alertStateCh5) ? Colors.redAccent : Colors.greenAccent;
       ChannelCardConfiguration channelCardConfiguration = ChannelCardConfiguration(
+        channel: ChannelNumber.CHANNEL5,
         name: widget.device.ch5Name,
         chartColor: cardColor,
         latestChannelValue: firstNode.ch5.toStringAsFixed(4),

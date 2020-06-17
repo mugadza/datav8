@@ -10,6 +10,7 @@ export './home/GetHomeDataOperationResult.dart';
 
 // Device
 export './devices/GetDeviceDataOperationResult.dart';
+export './devices/ChannelNumber.dart';
 
 // Authentication
 export './authentication/AuthenticationResult.dart';

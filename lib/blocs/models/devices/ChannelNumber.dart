@@ -1,0 +1,7 @@
+enum ChannelNumber{
+  CHANNEL1,
+  CHANNEL2,
+  CHANNEL3,
+  CHANNEL4,
+  CHANNEL5
+}

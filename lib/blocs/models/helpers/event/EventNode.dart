@@ -20,7 +20,31 @@ class EventNode extends MapObject {
 
   DateTime get deviceTimeDate => (map["deviceTimeDate"] is DateTime) ? map["deviceTimeDate"]:DateTime.parse(map["deviceTimeDate"] as String);
   set deviceTimeDate(DateTime value) => map["deviceTimeDate"] = value;
+  
+  double getMinimum(bool ch1Enabled, bool ch2Enabled, bool ch3Enabled, bool ch4Enabled, bool ch5Enabled){
+    List<double> items = [];
 
+    if(ch1Enabled) items.add(ch1);
+    if(ch2Enabled) items.add(ch2);
+    if(ch3Enabled) items.add(ch3);
+    if(ch4Enabled) items.add(ch4);
+    if(ch5Enabled) items.add(ch5);
+
+    return items.reduce((value, element) => value < element ? value : element);
+  }
+
+  double getMaximum(bool ch1Enabled, bool ch2Enabled, bool ch3Enabled, bool ch4Enabled, bool ch5Enabled){
+    List<double> items = [];
+
+    if(ch1Enabled) items.add(ch1);
+    if(ch2Enabled) items.add(ch2);
+    if(ch3Enabled) items.add(ch3);
+    if(ch4Enabled) items.add(ch4);
+    if(ch5Enabled) items.add(ch5);
+
+    return items.reduce((value, element) => value > element ? value : element);
+  }
+  
   static EventNode fromMap(Map<String, dynamic> map, [bool deepCopy = false]) {
     if (map == null) return null;
     if (deepCopy) map = jsonDecode(jsonEncode(map)) as Map<String, dynamic>;
