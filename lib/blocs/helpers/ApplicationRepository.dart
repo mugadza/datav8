@@ -13,7 +13,7 @@ class ApplicationRepository {
       : _graphQLConfiguration = graphQLConfiguration;
 
   Future<GetHomeDataOperationResult> getHomeData() async {
-    const int eventCount = 10;
+    const int eventCount = 50;
 
     QueryOptions _options = QueryOptions(
       documentNode: gql(HomeDataQueries.getHomeData(nEventCount: eventCount)),
@@ -33,7 +33,7 @@ class ApplicationRepository {
   }
 
   Future<GetDeviceDataOperationResult> getAllUserDevicesData() async {
-    const int eventCount = 25;
+    const int eventCount = 50;
     const int deviceCount = 10;
 
     QueryOptions _options = QueryOptions(
@@ -55,7 +55,7 @@ class ApplicationRepository {
   }
 
   Future<GetInitialApplicationDataResult> getInitialApplicationData() async {
-    const int eventCount = 25;
+    const int eventCount = 50;
     const int deviceCount = 10;
     const int userCount = 10;
 

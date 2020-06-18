@@ -1,6 +1,5 @@
-import 'package:datav8/blocs/models/devices/ChannelNumber.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
-import 'package:datav8/components/charts/LineChart.dart';
+import 'package:datav8/components/charts/Chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 
@@ -63,46 +62,9 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
 
                 SizedBox(height: 30),
 
-                // ---------------------------------------
-                LineChart(
-                  events: widget.item.events,
-                  currentChannel: widget.item.channel,
-                  configurations: <ChannelCardConfiguration>[widget.item],
-                  verticalDivision: 7
-                ),
+                Chart(data: widget.item),
 
-//                plotChannel1: (widget.item.channel == ChannelNumber.CHANNEL1) ? true : false,
-//                plotChannel2: (widget.item.channel == ChannelNumber.CHANNEL2) ? true : false,
-//                plotChannel3: (widget.item.channel == ChannelNumber.CHANNEL3) ? true : false,
-//                plotChannel4: (widget.item.channel == ChannelNumber.CHANNEL4) ? true : false,
-//                plotChannel5: (widget.item.channel == ChannelNumber.CHANNEL5) ? true : false,
-
-//                Container(
-//                  height: 300.0,
-//                  child: Stack(
-//                    children: <Widget>[
-//                      ///
-//                      /// Calling vertical value grafik
-//                      ///
-//                      _verticalValueGrafik(),
-//
-//                      ///
-//                      /// Calling sparkLine Grafik
-//                      ///
-//                      _sparkLineGrafic(),
-//                    ],
-//                  ),
-//                ),
-//
-//                ///
-//                /// Calling horizontal value grafik
-//                ///
-//                _horizontalValueGrafik(),
-                // ----------------------------------------------------
-
-                SizedBox(
-                  height: 20.0,
-                ),
+                SizedBox(height: 20.0),
 
               ]
             )
