@@ -13,20 +13,21 @@ class ChannelDetailsScreen extends StatefulWidget {
 }
 
 class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
+  List<bool> enabledChannels;
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
+  @override
+  void initState() {
+    enabledChannels = [false, false, false, false, false];
+    enabledChannels[ChannelNumber.values.indexOf(widget.item.channel)] = true;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
-    var grayText = TextStyle(
-        color: Theme.of(context).hintColor,
-        fontFamily: "Popins",
-        fontSize: 12.5);
-
-    var styleValueChart = TextStyle(
-        color: Theme.of(context).hintColor,
-        fontFamily: "Popins",
-        fontSize: 11.5);
-
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       ///
       /// Appbar
@@ -45,7 +46,8 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
       ),
 
       body: Column(
-      children: <Widget>[
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: <Widget>[
           Flexible(
             child: ListView(
               children: <Widget>[
@@ -61,44 +63,17 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                   ),
                 ),
 
-                SizedBox(height: 30),
-
-                // ---------------------------------------
-                LineChart(
-                  events: widget.item.events,
-                  currentChannel: widget.item.channel,
-                  configurations: <ChannelCardConfiguration>[widget.item],
-                  verticalDivision: 7
+                // -------------------------------------------------------------
+                Container(
+                  height: 300,
+                  child: LineChart(
+                    events: widget.item.events,
+                    configurations: <ChannelCardConfiguration>[widget.item],
+                    enabledChannels: enabledChannels,
+                    verticalDivision: 7
+                  ),
                 ),
-
-//                plotChannel1: (widget.item.channel == ChannelNumber.CHANNEL1) ? true : false,
-//                plotChannel2: (widget.item.channel == ChannelNumber.CHANNEL2) ? true : false,
-//                plotChannel3: (widget.item.channel == ChannelNumber.CHANNEL3) ? true : false,
-//                plotChannel4: (widget.item.channel == ChannelNumber.CHANNEL4) ? true : false,
-//                plotChannel5: (widget.item.channel == ChannelNumber.CHANNEL5) ? true : false,
-
-//                Container(
-//                  height: 300.0,
-//                  child: Stack(
-//                    children: <Widget>[
-//                      ///
-//                      /// Calling vertical value grafik
-//                      ///
-//                      _verticalValueGrafik(),
-//
-//                      ///
-//                      /// Calling sparkLine Grafik
-//                      ///
-//                      _sparkLineGrafic(),
-//                    ],
-//                  ),
-//                ),
-//
-//                ///
-//                /// Calling horizontal value grafik
-//                ///
-//                _horizontalValueGrafik(),
-                // ----------------------------------------------------
+                // -------------------------------------------------------------
 
                 SizedBox(
                   height: 20.0,
@@ -106,7 +81,8 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
 
               ]
             )
-          )
+          ),
+          _modalBottomSheetChannels()
         ]
       )
     );
@@ -207,186 +183,68 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
     );
   }
 
-  Widget _sparkLineGrafic() {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: new Sparkline(
-        data: widget.item.data,
-        lineWidth: 0.3,
-        fillMode: FillMode.below,
-        lineColor: widget.item.chartColor,
-        fillGradient: new LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: widget.item.chartColorGradient,
-        ),
-      ),
-    );
-  }
 
-  Widget _horizontalValueGrafik() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 10.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            "50.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-          Text(
-            "40.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-          Text(
-            "30.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-          Text(
-            "20.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-          Text(
-            "10.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-          Text(
-            "0.0000",
-            style: TextStyle(
-                color: Theme.of(context).hintColor,
-                fontFamily: "Popins",
-                fontSize: 11.5),
-          ),
-        ],
-      ),
-    );
-  }
-
-
-
-
-  Widget _verticalValueGrafik() {
-    return Padding(
-      padding: const EdgeInsets.only(right: 8.0),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Container(
-          height: 300.0,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.end,
+  Widget _channelIndicator(bool status, int channel){
+    return InkWell(
+      onTap: () {
+        if(widget.item.channel.index != channel){
+          setState(() {
+            enabledChannels[channel] = !enabledChannels[channel];
+          });
+        }
+      },
+      child: Column(children: <Widget>[
+        Container(
+          padding: EdgeInsets.only(left: 4),
+          child: Stack(
+            alignment: Alignment.center,
             children: <Widget>[
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 70.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "5000.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 70.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "4000.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 70.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "3000.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 70.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "2000.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 70.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "1000.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-              Stack(children: <Widget>[
-                Padding(
-                    padding: const EdgeInsets.only(top: 8.0, right: 30.0),
-                    child: _line()),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: Text(
-                      "0.0000",
-                      style: TextStyle(
-                          color: Theme.of(context).hintColor,
-                          fontFamily: "Popins",
-                          fontSize: 11.5),
-                    ))
-              ]),
-            ],
+              Container(
+                height: 45.0,
+                width: 45.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    tileMode: TileMode.repeated,
+                    colors: [Color(0xFF15EDED), Color(0xFF029CF5)]
+                  )
+                ),
+              ),
+              Container(
+                height: 38.0,
+                width: 38.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
+                  border: Border.all(color: Color(0xFF141C35), width: 1.5),
+                  color: (status) ? Colors.transparent : Theme.of(context).scaffoldBackgroundColor
+                ),
+              )
+            ]
           ),
+        ),
+
+        Text("CH${channel + 1}", style: TextStyle(fontFamily: "Popins", fontSize: 11.0))
+      ]),
+    );
+  }
+
+  Widget _modalBottomSheetChannels() {
+    return Container(
+      height: 80.0,
+      color: Color(0xFF141C35),
+      child: Padding(
+        padding: const EdgeInsets.only(top: 8.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: <Widget>[
+            for(int channel = 0; channel < enabledChannels.length; ++channel) _channelIndicator(enabledChannels[channel], channel)
+          ],
         ),
       ),
     );
   }
 
-  Widget _line() {
-    return Container(
-      height: 0.2,
-      width: double.infinity,
-      color: Theme.of(context).hintColor,
-    );
-  }
 }
