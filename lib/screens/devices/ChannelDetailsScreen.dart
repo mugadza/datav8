@@ -11,6 +11,10 @@ class ChannelDetailsScreen extends StatefulWidget {
   _ChannelDetailsScreenState createState() => _ChannelDetailsScreenState();
 }
 
+enum Status{
+  NONE, RED, GREEN
+}
+
 class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
   List<bool> enabledChannels;
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
@@ -78,7 +82,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                 ),
                 // -------------------------------------------------------------
 
-                SizedBox(height: 20.0),
+                SizedBox(height: 40.0),
 
                 // -------------------------------------------------------------
                 Row(
@@ -93,7 +97,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("12.6", style: valueInfoStyle),
-                          Text("LATEST VALUE", style: titleInfoStyle),
+                          Text("SCALE FACTOR", style: titleInfoStyle),
                         ],
                       ),
                     ),
@@ -105,7 +109,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("12.6", style: valueInfoStyle),
-                          Text("AVERAGE VALUE", style: titleInfoStyle),
+                          Text("ZERO OFFSET", style: titleInfoStyle),
                         ],
                       ),
                     ),
@@ -126,7 +130,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("12.6", style: valueInfoStyle),
-                          Text("MIN ERROR", style: titleInfoStyle),
+                          Text("LOWER THRESHOLD", style: titleInfoStyle),
                         ],
                       ),
                     ),
@@ -140,7 +144,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
                           Text("12.6", style: valueInfoStyle),
-                          Text("MAX ERROR", style: titleInfoStyle),
+                          Text("UPPER THRESHOLD", style: titleInfoStyle),
                         ],
                       ),
                     ),
@@ -160,100 +164,92 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
   }
 
   Widget _channelSummaryHeader() {
-    return Column(
+    TextStyle style = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11);
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(
-              widget.item.latestChannelValue,
-              style: TextStyle(
-                  color: widget.item.chartColor,
-                  fontSize: 36.0,
-                  fontFamily: "Sans",
-                  fontWeight: FontWeight.w700),
-            ),
-            Column(
+            Text(widget.item.latestChannelValue, style: TextStyle(color: widget.item.chartColor, fontSize: 33.0, fontFamily: "Sans", fontWeight: FontWeight.w700)),
+            Text("Temperature (°C)", style: style),
+            Text("PT1000", style: style),
+//            Text("Mask    Alert    Monitor", style: style),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Text(
-                        "High",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor,
-                            fontFamily: "Popins",
-                            fontSize: 11.5),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 7.0,
-                    ),
-                    Text("60.8950")
-                  ],
-                ),
-                Row(
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.only(right: 15.0),
-                      child: Text(
-                        "Low",
-                        style: TextStyle(
-                            color: Theme.of(context).hintColor,
-                            fontFamily: "Popins",
-                            fontSize: 11.5),
-                      ),
-                    ),
-                    Text("60.0300")
-                  ],
-                )
+                Text("Mask", style: style),
+                SizedBox(width: 6.0),
+                _channelOnOffIndicator(Status.NONE),
+                SizedBox(width: 8.5),
+                Text("Alert", style: style),
+                SizedBox(width: 6.0),
+                _channelOnOffIndicator(Status.GREEN),
+                SizedBox(width: 8.5),
+                Text("Monitor", style: style),
+                SizedBox(width: 6.0),
+                _channelOnOffIndicator(Status.RED),
               ],
-            )
+            ),
           ],
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            Row(
-              children: <Widget>[
-                Text(
-                  "\$60.57000",
-                  style: TextStyle(
-                      color: Theme.of(context).hintColor,
-                      fontFamily: "Popins",
-                      fontSize: 11.5),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
-                  child: Text(
-                    widget.item.latestChannelValue,
-                    style: TextStyle(color: widget.item.chartColor),
-                  ),
-                ),
-              ],
-            ),
-            Row(
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.only(right: 31.0),
-                  child: Text(
-                    "24h Vol",
-                    style: TextStyle(
-                        color: Theme.of(context).hintColor,
-                        fontFamily: "Popins",
-                        fontSize: 11.5),
-                  ),
-                ),
-                Text("906.8")
-              ],
-            )
+            _channelStatusIndicator("CH1 "),
+            _channelStatusIndicator("CH2"),
+            _channelStatusIndicator("CH3"),
+            _channelStatusIndicator("CH4"),
+            _channelStatusIndicator("CH5"),
           ],
         ),
       ],
     );
   }
 
+  Widget _channelOnOffIndicator(Status status){
+    BoxDecoration decoration;
+
+    switch(status){
+      case Status.NONE:
+        decoration = BoxDecoration(color: Colors.grey, borderRadius: BorderRadius.circular(50));
+        break;
+      case Status.RED:
+        decoration = BoxDecoration(
+            color: Colors.redAccent,
+            borderRadius: BorderRadius.circular(50),
+            boxShadow: [
+              BoxShadow(color: Colors.redAccent.withAlpha(110), blurRadius: 5.0, spreadRadius: 3.0, offset: Offset(0.0, 2.0)),
+            ]
+        );
+        break;
+      case Status.GREEN:
+        decoration = BoxDecoration(
+          color: Colors.greenAccent,
+          borderRadius: BorderRadius.circular(50),
+          boxShadow: [
+            BoxShadow(color: Colors.greenAccent.withAlpha(70), blurRadius: 5.0, spreadRadius: 3.0, offset: Offset(0.0, 2.0)),
+          ]
+        );
+        break;
+    }
+
+    return Container(height: 15, width: 15, decoration: decoration);
+  }
+
+  Widget _channelStatusIndicator(String channel){
+    return Row(
+      children: <Widget>[
+        Padding(
+          padding: const EdgeInsets.only(right: 10.0),
+          child: Text(channel, style: TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11)),
+        ),
+        Container(color: Theme.of(context).hintColor, height: 2.5, width: 50, margin: const EdgeInsets.only(bottom: 3))
+      ],
+    );
+  }
 
   Widget _channelIndicator(bool status, int channel){
     return InkWell(

@@ -55,6 +55,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
                   height: 210.0,
                   width: double.infinity,
                   child: Carousel(
+                    autoplay: false,
                     boxFit: BoxFit.cover,
                     dotColor: Colors.white.withOpacity(0.8),
                     dotSize: 5.5,
