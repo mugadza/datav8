@@ -2,7 +2,6 @@ import 'package:datav8/blocs/models/devices/ChannelNumber.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:datav8/components/charts/LineChart.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 class ChannelDetailsScreen extends StatefulWidget {
   final ChannelCardConfiguration item;
@@ -26,6 +25,10 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MediaQueryData query = MediaQuery.of(context);
+    BorderSide border = BorderSide(color: Theme.of(context).hintColor, width: 1);
+    TextStyle titleInfoStyle = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11.5);
+    TextStyle valueInfoStyle = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11.5, fontWeight: FontWeight.w800);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -75,9 +78,77 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                 ),
                 // -------------------------------------------------------------
 
-                SizedBox(
-                  height: 20.0,
+                SizedBox(height: 20.0),
+
+                // -------------------------------------------------------------
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: query.size.width/2,
+                      height: 90.0,
+                      decoration: BoxDecoration(border: Border(top: border, bottom: border, right: border)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("12.6", style: valueInfoStyle),
+                          Text("LATEST VALUE", style: titleInfoStyle),
+                        ],
+                      ),
+                    ),
+                    Container(
+                      width: query.size.width/2,
+                      height: 90.0,
+                      decoration: BoxDecoration(border: Border(top: border, bottom: border)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("12.6", style: valueInfoStyle),
+                          Text("AVERAGE VALUE", style: titleInfoStyle),
+                        ],
+                      ),
+                    ),
+
+
+                  ],
                 ),
+                // -------------------------------------------------------------
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Container(
+                      width: query.size.width/2,
+                      height: 90.0,
+                      decoration: BoxDecoration(border: Border(bottom: border, right: border)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("12.6", style: valueInfoStyle),
+                          Text("MIN ERROR", style: titleInfoStyle),
+                        ],
+                      ),
+                    ),
+
+
+                    Container(
+                      width: query.size.width/2,
+                      height: 90.0,
+                      decoration: BoxDecoration(border: Border(bottom: border)),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text("12.6", style: valueInfoStyle),
+                          Text("MAX ERROR", style: titleInfoStyle),
+                        ],
+                      ),
+                    ),
+
+
+                  ],
+                )
+                // -------------------------------------------------------------
 
               ]
             )
