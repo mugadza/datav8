@@ -28,6 +28,7 @@ class _ProfileTabState extends State<ProfileTab> {
             /// Create list for category
             ///
             Category(
+              comingSoon: true,
               txt: "Manage customers",
               padding: 35.0,
               image: "assets/icon/icon-management.png",
@@ -37,6 +38,7 @@ class _ProfileTabState extends State<ProfileTab> {
             ),
             _line(context),
             Category(
+              comingSoon: true,
               txt: "Settings",
               padding: 30.0,
               image: "assets/icon/icon-settings.png",
@@ -45,6 +47,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
             _line(context),
             Category(
+              comingSoon: false,
               txt: "About",
               padding: 30.0,
               image: "assets/icon/icon-smartphone-info.png",
@@ -55,6 +58,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
             _line(context),
             Category(
+              comingSoon: true,
               txt: "Help",
               padding: 30.0,
               image: "assets/icon/icon-info.png",
@@ -63,6 +67,7 @@ class _ProfileTabState extends State<ProfileTab> {
 
             _line(context),
             Category(
+              comingSoon: false,
               txt: "Logout",
               padding: 30.0,
               image: "assets/icon/icon-power.png",
@@ -140,18 +145,21 @@ class Category extends StatelessWidget {
   final String txt, image;
   final GestureTapCallback tap;
   final double padding;
+  final bool comingSoon;
 
-  Category({this.txt, this.image, this.tap, this.padding});
+  Category({this.txt, this.image, this.tap, this.padding, this.comingSoon});
   
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: tap,
-      child: Column(
-        children: <Widget>[
-          Padding(
-            padding: const EdgeInsets.only(top: 25.0, left: 30.0),
-            child: Row(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 25.0, left: 30.0),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: EdgeInsets.only(right: padding),
@@ -163,8 +171,17 @@ class Category extends StatelessWidget {
                 ),
               ],
             ),
-          ),
-        ],
+            comingSoon ? Padding(
+              padding: const EdgeInsets.only(right: 12.0),
+              child: Container(
+                  width: 60.0,
+                  height: 25.0,
+                  decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(2.0)), color: Color(0xFF15EDED)),
+                  child: Center(child: Text("Soon", style: TextStyle(fontSize: 13, color: Colors.white)))
+              ),
+            ) : Container()
+          ],
+        ),
       ),
     );
   }
