@@ -343,7 +343,7 @@ class _DeviceScreenState extends State<DeviceScreen> {
         zeroOffset: widget.device.zeroOffsetCh5,
         scaleFactor: widget.device.scaleFactorCh5,
         name: widget.device.ch5Name,
-        chartColor: Colors.yellowAccent,
+        chartColor: Colors.purpleAccent,
         latestChannelValue: firstNode.ch5.toStringAsFixed(4),
         maskAlert: widget.device.ch5MasksAlerts,
         alertState: widget.device.alertStateCh5,

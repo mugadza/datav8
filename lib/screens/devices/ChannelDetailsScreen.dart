@@ -1,14 +1,18 @@
 import 'package:datav8/blocs/models/devices/ChannelNumber.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:datav8/components/charts/LineChart.dart';
-import 'package:datav8/screens/devices/ChannelsFloatingButtons.dart';
+import 'package:datav8/components/styles.dart';
 import 'package:flutter/material.dart';
 
 class ChannelDetailsScreen extends StatefulWidget {
   final ChannelCardConfiguration currentChannelConfiguration;
   final List<ChannelCardConfiguration> otherChannelsConfigurations;
+  final List<bool> _enabledChannels;
 
-  ChannelDetailsScreen({Key key, this.currentChannelConfiguration, this.otherChannelsConfigurations}) : super(key: key);
+
+  ChannelDetailsScreen({Key key, this.currentChannelConfiguration, this.otherChannelsConfigurations})
+      : _enabledChannels = [false, false, false, false, false],
+        super(key: key);
 
   _ChannelDetailsScreenState createState() => _ChannelDetailsScreenState();
 }
@@ -17,16 +21,31 @@ enum Status{
   NONE, RED, GREEN
 }
 
-class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
-  List<bool> enabledChannels;
+class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with SingleTickerProviderStateMixin {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  bool isOpened = false;
+  AnimationController _animationController;
+  Animation<Color> _animateColor;
+  Animation<double> _translateButton;
+  Curve _curve = Curves.easeOut;
 
   @override
   void initState() {
-    enabledChannels = [false, false, false, false, false];
-    enabledChannels[ChannelNumber.values.indexOf(widget.currentChannelConfiguration.channel)] = true;
+    widget._enabledChannels[ChannelNumber.values.indexOf(widget.currentChannelConfiguration.channel)] = true;
+
+    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 500))
+      ..addListener(() => setState(() {}));
+
+    _animateColor = ColorTween(begin: ApplicationColorStyle.primaryColor, end: ApplicationColorStyle.primaryColor).animate(CurvedAnimation(parent: _animationController, curve: Interval(0.0, 1.0, curve: _curve)));
+    _translateButton = Tween<double>(begin: 56, end: -14).animate(CurvedAnimation(parent: _animationController, curve: Interval(0.0, 0.75, curve: _curve)));
 
     super.initState();
+  }
+
+  @override
+  dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -78,8 +97,8 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                   height: 300,
                   child: LineChart(
                     events: widget.currentChannelConfiguration.events,
-                    configurations: <ChannelCardConfiguration>[widget.currentChannelConfiguration],
-                    enabledChannels: enabledChannels,
+                    configurations: widget.otherChannelsConfigurations,
+                    enabledChannels: widget._enabledChannels,
                     verticalDivision: 7
                   ),
                 ),
@@ -158,7 +177,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
 
         ]
       ),
-      floatingActionButton: ChannelsFloatingButtons(),
+      floatingActionButton: _buildFloatingButton(),
     );
   }
 
@@ -196,7 +215,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            for(int i = 0; i < enabledChannels.length; ++i ) enabledChannels[i] ? _channelStatusIndicator("CH${i + 1}".padRight(3), widget.otherChannelsConfigurations[i].chartColor) : _channelStatusIndicator("CH${i + 1}", hintColor),
+            for(int i = 0; i < widget._enabledChannels.length; ++i ) widget._enabledChannels[i] ? _channelStatusIndicator("CH${i + 1}".padRight(3), widget.otherChannelsConfigurations[i].chartColor) : _channelStatusIndicator("CH${i + 1}", hintColor),
           ],
         ),
       ],
@@ -240,8 +259,85 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
           padding: const EdgeInsets.only(right: 10.0),
           child: Text(channel, style: TextStyle(color: color, fontFamily: "Popins", fontSize: 11)),
         ),
-        Container(color: color, height: 2.5, width: 50, margin: const EdgeInsets.only(bottom: 3))
+        Container(color: color, height: 7, width: 50, margin: const EdgeInsets.only(bottom: 3))
       ],
+    );
+  }
+
+  Widget _buildFloatingButton(){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: <Widget>[
+        Container(
+          margin: const EdgeInsets.only(right: 10),
+          child: FloatingActionButton(
+            heroTag: "Download",
+            onPressed: null,
+            tooltip: 'Download',
+            child: Icon(Icons.cloud_download),
+          ),
+        ),
+        Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: <Widget>[
+            Transform(
+              transform: Matrix4.translationValues(0.0, _translateButton.value * 4.4, 0.0),
+              child: _channelFloatingButton(5, widget._enabledChannels[4] ? Icons.center_focus_strong : Icons.center_focus_weak),
+            ),
+
+            Transform(
+              transform: Matrix4.translationValues(0.0, _translateButton.value * 3.5, 1.0),
+              child: _channelFloatingButton(4, widget._enabledChannels[3] ? Icons.center_focus_strong : Icons.center_focus_weak),
+            ),
+
+            Transform(
+              transform: Matrix4.translationValues(0.0, _translateButton.value * 2.65, 0.0),
+              child: _channelFloatingButton(3, widget._enabledChannels[2] ? Icons.center_focus_strong : Icons.center_focus_weak),
+            ),
+
+            Transform(
+              transform: Matrix4.translationValues(0.0, _translateButton.value * 1.80, 0.0),
+              child: _channelFloatingButton(2, widget._enabledChannels[1] ? Icons.center_focus_strong : Icons.center_focus_weak),
+            ),
+
+            Transform(
+              transform: Matrix4.translationValues(0.0, _translateButton.value * 0.90 , 0.0),
+              child: _channelFloatingButton(1, widget._enabledChannels[0] ? Icons.center_focus_strong : Icons.center_focus_weak),
+            ),
+
+            FloatingActionButton(
+              backgroundColor: _animateColor.value,
+              onPressed: animate,
+              tooltip: 'Channels',
+              child: Icon(Icons.playlist_add),
+            ),
+          ],
+        ),
+      ],
+    );
+  }
+
+  animate() {
+    !isOpened ? _animationController.forward() : _animationController.reverse();
+    isOpened = !isOpened;
+  }
+
+  Widget _channelFloatingButton(int channelIndex, IconData icon){
+    return Container(
+      height: 48,
+      child: FloatingActionButton(
+        heroTag: "CH$channelIndex",
+        onPressed: (){
+          if( widget.currentChannelConfiguration.channel.index != channelIndex - 1) {
+            setState(() {
+              widget._enabledChannels[channelIndex - 1] = !widget._enabledChannels[channelIndex - 1];
+            });
+          }
+        },
+        tooltip: "CH$channelIndex",
+        child: Icon(icon),
+      ),
     );
   }
 }

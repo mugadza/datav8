@@ -55,17 +55,23 @@ class LinePainter extends CustomPainter{
 
   @override
   bool shouldRepaint(LinePainter old) {
-    return events != old.events ||
-    enabledChannels != old.enabledChannels ||
-    configurations != old.configurations ||
-    verticalDivision != old.verticalDivision;
+    return true;
+  }
+
+  Paint _paintWithColor(Color color, double lineWidth, bool sharpCorners){
+    return Paint()
+      ..strokeWidth = lineWidth
+      ..color = color
+      ..strokeCap = StrokeCap.round
+      ..strokeJoin = sharpCorners ? StrokeJoin.miter : StrokeJoin.round
+      ..style = PaintingStyle.stroke;
   }
 
   // -------------------------- Private method --------------------------------
   void _paintDataLinePlot(Canvas canvas, Size size, Tuple2<int, int> verticalMinMax){
     int length = events.length;
     if(length > 1){
-      double lineWidth = 0.9;
+      double lineWidth = 1.0;
       double width = size.width - lineWidth;
       double height = size.height - lineWidth;
       double xUnit = width/(length - 1);
@@ -74,14 +80,7 @@ class LinePainter extends CustomPainter{
       print("----------------W: $width");
       print("----------------H: $height");
 
-      final bool sharpCorners = true;
-
-      final Paint linePlotPainter = Paint()
-        ..strokeWidth = lineWidth
-        ..color = configurations[0].chartColor
-        ..strokeCap = StrokeCap.round
-        ..strokeJoin = sharpCorners ? StrokeJoin.miter : StrokeJoin.round
-        ..style = PaintingStyle.stroke;
+      final bool sharpCorners = false;
 
       Offset startCh1, startCh2, startCh3, startCh4, startCh5;
       if(enabledChannels[0]) startCh1 = Offset(lineWidth / 2, height - (events[0].ch1 - verticalMinMax.item1) * yUnit + lineWidth / 2);
@@ -89,7 +88,6 @@ class LinePainter extends CustomPainter{
       if(enabledChannels[2]) startCh3 = Offset(lineWidth / 2, height - (events[0].ch3 - verticalMinMax.item1) * yUnit + lineWidth / 2);
       if(enabledChannels[3]) startCh4 = Offset(lineWidth / 2, height - (events[0].ch4 - verticalMinMax.item1) * yUnit + lineWidth / 2);
       if(enabledChannels[4]) startCh5 = Offset(lineWidth / 2, height - (events[0].ch5 - verticalMinMax.item1) * yUnit + lineWidth / 2);
-
 
       Offset endCh1, endCh2, endCh3, endCh4, endCh5;
       for(int i = 1; i < length; i++) {
@@ -99,36 +97,41 @@ class LinePainter extends CustomPainter{
         if(enabledChannels[0]){
           double y = height - (current.ch1 - verticalMinMax.item1) * yUnit + lineWidth / 2;
           endCh1 = Offset(x, y);
-          canvas.drawLine(startCh1, endCh1, linePlotPainter);
+          Paint linePlotPainter = _paintWithColor(configurations[0].chartColor, lineWidth, sharpCorners);
 
+          canvas.drawLine(startCh1, endCh1, linePlotPainter);
           startCh1 = endCh1;
         }
         if(enabledChannels[1]){
           double y = height - (current.ch2 - verticalMinMax.item1) * yUnit + lineWidth / 2;
           endCh2 = Offset(x, y);
-          canvas.drawLine(startCh2, endCh2, linePlotPainter);
+          Paint linePlotPainter = _paintWithColor(configurations[1].chartColor, lineWidth, sharpCorners);
 
+          canvas.drawLine(startCh2, endCh2, linePlotPainter);
           startCh2 = endCh2;
         }
         if(enabledChannels[2]){
           double y = height - (current.ch3 - verticalMinMax.item1) * yUnit + lineWidth / 2;
           endCh3 = Offset(x, y);
-          canvas.drawLine(startCh3, endCh3, linePlotPainter);
+          Paint linePlotPainter = _paintWithColor(configurations[2].chartColor, lineWidth, sharpCorners);
 
+          canvas.drawLine(startCh3, endCh3, linePlotPainter);
           startCh3 = endCh3;
         }
         if(enabledChannels[3]){
           double y = height - (current.ch4 - verticalMinMax.item1) * yUnit + lineWidth / 2;
           endCh4 = Offset(x, y);
-          canvas.drawLine(startCh4, endCh4, linePlotPainter);
+          Paint linePlotPainter = _paintWithColor(configurations[3].chartColor, lineWidth, sharpCorners);
 
+          canvas.drawLine(startCh4, endCh4, linePlotPainter);
           startCh4 = endCh4;
         }
         if(enabledChannels[4]){
           double y = height - (current.ch5 - verticalMinMax.item1) * yUnit + lineWidth / 2;
           endCh5 = Offset(x, y);
-          canvas.drawLine(startCh5, endCh5, linePlotPainter);
+          Paint linePlotPainter = _paintWithColor(configurations[4].chartColor, lineWidth, sharpCorners);
 
+          canvas.drawLine(startCh5, endCh5, linePlotPainter);
           startCh5 = endCh5;
         }
       }
