@@ -57,6 +57,12 @@ class MapObject {
     map = Map<String, dynamic>.fromIterables(keys, values);
   }
 
+  double doubleValue(dynamic value){
+    double result = (value is int) ? value.toDouble() : value as double;
+
+    return result;
+  }
+
   dynamic operator [](String key) => map[key];
 
   dynamic toJson() => map;

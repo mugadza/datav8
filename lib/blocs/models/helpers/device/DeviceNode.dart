@@ -96,64 +96,64 @@ class DeviceNode extends MapObject {
   String get ch5SensorType => map["ch5SensorType"] as String;
   set ch5SensorType(String value) => map["ch5SensorType"] = value;
 
-  double get upperThresholdCh1 => map["upperThresholdCh1"] as double;
+  double get upperThresholdCh1 => doubleValue(map["upperThresholdCh1"]);
   set upperThresholdCh1(double value) => map["upperThresholdCh1"] = value;
 
-  double get upperThresholdCh2 => map["upperThresholdCh2"] as double;
+  double get upperThresholdCh2 => doubleValue(map["upperThresholdCh2"]);
   set upperThresholdCh2(double value) => map["upperThresholdCh2"] = value;
 
-  double get upperThresholdCh3 => map["upperThresholdCh3"] as double;
+  double get upperThresholdCh3 => doubleValue(map["upperThresholdCh3"]);
   set upperThresholdCh3(double value) => map["upperThresholdCh3"] = value;
 
-  double get upperThresholdCh4 => map["upperThresholdCh4"] as double;
+  double get upperThresholdCh4 => doubleValue(map["upperThresholdCh4"]);
   set upperThresholdCh4(double value) => map["upperThresholdCh4"] = value;
 
-  double get upperThresholdCh5 => map["upperThresholdCh5"] as double;
+  double get upperThresholdCh5 => doubleValue(map["upperThresholdCh5"]);
   set upperThresholdCh5(double value) => map["upperThresholdCh5"] = value;
 
-  double get lowerThresholdCh1 => map["lowerThresholdCh1"] as double;
+  double get lowerThresholdCh1 => doubleValue(map["lowerThresholdCh1"]);
   set lowerThresholdCh1(double value) => map["lowerThresholdCh1"] = value;
 
-  double get lowerThresholdCh2 => map["lowerThresholdCh2"] as double;
+  double get lowerThresholdCh2 => doubleValue(map["lowerThresholdCh2"]);
   set lowerThresholdCh2(double value) => map["lowerThresholdCh2"] = value;
 
-  double get lowerThresholdCh3 => map["lowerThresholdCh3"] as double;
+  double get lowerThresholdCh3 => doubleValue(map["lowerThresholdCh3"]);
   set lowerThresholdCh3(double value) => map["lowerThresholdCh3"] = value;
 
-  double get lowerThresholdCh4 => map["lowerThresholdCh4"] as double;
+  double get lowerThresholdCh4 => doubleValue(map["lowerThresholdCh4"]);
   set lowerThresholdCh4(double value) => map["lowerThresholdCh4"] = value;
 
-  double get lowerThresholdCh5 => map["lowerThresholdCh5"] as double;
+  double get lowerThresholdCh5 => doubleValue(map["lowerThresholdCh5"]);
   set lowerThresholdCh5(double value) => map["lowerThresholdCh5"] = value;
 
-  double get scaleFactorCh1 => map["scaleFactorCh1"] as double;
+  double get scaleFactorCh1 => doubleValue(map["scaleFactorCh1"]);
   set scaleFactorCh1(double value) => map["scaleFactorCh1"] = value;
 
-  double get scaleFactorCh2 => map["scaleFactorCh2"] as double;
+  double get scaleFactorCh2 => doubleValue(map["scaleFactorCh2"]);
   set scaleFactorCh2(double value) => map["scaleFactorCh2"] = value;
 
-  double get scaleFactorCh3 => map["scaleFactorCh3"] as double;
+  double get scaleFactorCh3 => doubleValue(map["scaleFactorCh3"]);
   set scaleFactorCh3(double value) => map["scaleFactorCh3"] = value;
 
-  double get scaleFactorCh4 => map["scaleFactorCh4"] as double;
+  double get scaleFactorCh4 => doubleValue(map["scaleFactorCh4"]);
   set scaleFactorCh4(double value) => map["scaleFactorCh4"] = value;
 
-  double get scaleFactorCh5 => map["scaleFactorCh5"] as double;
+  double get scaleFactorCh5 => doubleValue(map["scaleFactorCh5"]);
   set scaleFactorCh5(double value) => map["scaleFactorCh5"] = value;
 
-  double get zeroOffsetCh1 => map["zeroOffsetCh1"] as double;
+  double get zeroOffsetCh1 => doubleValue(map["zeroOffsetCh1"]);
   set zeroOffsetCh1(double value) => map["zeroOffsetCh1"] = value;
 
-  double get zeroOffsetCh2 => map["zeroOffsetCh2"] as double;
+  double get zeroOffsetCh2 => doubleValue(map["zeroOffsetCh2"]);
   set zeroOffsetCh2(double value) => map["zeroOffsetCh2"] = value;
 
-  double get zeroOffsetCh3 => map["zeroOffsetCh3"] as double;
+  double get zeroOffsetCh3 => doubleValue(map["zeroOffsetCh3"]);
   set zeroOffsetCh3(double value) => map["zeroOffsetCh3"] = value;
 
-  double get zeroOffsetCh4 => map["zeroOffsetCh4"] as double;
+  double get zeroOffsetCh4 => doubleValue(map["zeroOffsetCh4"]);
   set zeroOffsetCh4(double value) => map["zeroOffsetCh4"] = value;
 
-  double get zeroOffsetCh5 => map["zeroOffsetCh5"] as double;
+  double get zeroOffsetCh5 => doubleValue(map["zeroOffsetCh5"]);
   set zeroOffsetCh5(double value) => map["zeroOffsetCh5"] = value;
 
   bool get monitoringActiveCh1 => map["monitoringActiveCh1"] as bool;

@@ -3,19 +3,19 @@ import 'dart:convert';
 import 'package:datav8/blocs/models/models.dart';
 
 class EventNode extends MapObject {
-  double get ch1 => map["ch1"] as double;
+  double get ch1 => doubleValue(map["ch1"]);
   set ch1(double value) => map["ch1"] = value;
 
-  double get ch2 => map["ch2"] as double;
+  double get ch2 => doubleValue(map["ch2"]);
   set ch2(double value) => map["ch2"] = value;
 
-  double get ch3 => map["ch3"] as double;
+  double get ch3 => doubleValue(map["ch3"]);
   set ch3(double value) => map["ch3"] = value;
 
-  double get ch4 => map["ch4"] as double;
+  double get ch4 => doubleValue(map["ch4"]);
   set ch4(double value) => map["ch4"] = value;
 
-  double get ch5 => map["ch5"] as double;
+  double get ch5 => doubleValue(map["ch5"]);
   set ch5(double value) => map["ch5"] = value;
 
   DateTime get deviceTimeDate => (map["deviceTimeDate"] is DateTime) ? map["deviceTimeDate"]:DateTime.parse(map["deviceTimeDate"] as String);
