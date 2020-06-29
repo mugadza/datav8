@@ -66,6 +66,36 @@ class DeviceNode extends MapObject {
   String get ch5Name => map["ch5Name"] as String;
   set ch5Name(String value) => map["ch5Name"] = value;
 
+  String get unitsCh1 => map["unitsCh1"] as String;
+  set unitsCh1(String value) => map["unitsCh1"] = value;
+
+  String get unitsCh2 => map["unitsCh2"] as String;
+  set unitsCh2(String value) => map["unitsCh2"] = value;
+
+  String get unitsCh3 => map["unitsCh3"] as String;
+  set unitsCh3(String value) => map["unitsCh3"] = value;
+
+  String get unitsCh4 => map["unitsCh4"] as String;
+  set unitsCh4(String value) => map["unitsCh4"] = value;
+
+  String get unitsCh5 => map["unitsCh5"] as String;
+  set unitsCh5(String value) => map["unitsCh5"] = value;
+
+  String get ch1SensorType => map["ch1SensorType"] as String;
+  set ch1SensorType(String value) => map["ch1SensorType"] = value;
+
+  String get ch2SensorType => map["ch2SensorType"] as String;
+  set ch2SensorType(String value) => map["ch2SensorType"] = value;
+
+  String get ch3SensorType => map["ch3SensorType"] as String;
+  set ch3SensorType(String value) => map["ch3SensorType"] = value;
+
+  String get ch4SensorType => map["ch4SensorType"] as String;
+  set ch4SensorType(String value) => map["ch4SensorType"] = value;
+
+  String get ch5SensorType => map["ch5SensorType"] as String;
+  set ch5SensorType(String value) => map["ch5SensorType"] = value;
+
   double get upperThresholdCh1 => map["upperThresholdCh1"] as double;
   set upperThresholdCh1(double value) => map["upperThresholdCh1"] = value;
 
@@ -96,6 +126,36 @@ class DeviceNode extends MapObject {
   double get lowerThresholdCh5 => map["lowerThresholdCh5"] as double;
   set lowerThresholdCh5(double value) => map["lowerThresholdCh5"] = value;
 
+  double get scaleFactorCh1 => map["scaleFactorCh1"] as double;
+  set scaleFactorCh1(double value) => map["scaleFactorCh1"] = value;
+
+  double get scaleFactorCh2 => map["scaleFactorCh2"] as double;
+  set scaleFactorCh2(double value) => map["scaleFactorCh2"] = value;
+
+  double get scaleFactorCh3 => map["scaleFactorCh3"] as double;
+  set scaleFactorCh3(double value) => map["scaleFactorCh3"] = value;
+
+  double get scaleFactorCh4 => map["scaleFactorCh4"] as double;
+  set scaleFactorCh4(double value) => map["scaleFactorCh4"] = value;
+
+  double get scaleFactorCh5 => map["scaleFactorCh5"] as double;
+  set scaleFactorCh5(double value) => map["scaleFactorCh5"] = value;
+
+  double get zeroOffsetCh1 => map["zeroOffsetCh1"] as double;
+  set zeroOffsetCh1(double value) => map["zeroOffsetCh1"] = value;
+
+  double get zeroOffsetCh2 => map["zeroOffsetCh2"] as double;
+  set zeroOffsetCh2(double value) => map["zeroOffsetCh2"] = value;
+
+  double get zeroOffsetCh3 => map["zeroOffsetCh3"] as double;
+  set zeroOffsetCh3(double value) => map["zeroOffsetCh3"] = value;
+
+  double get zeroOffsetCh4 => map["zeroOffsetCh4"] as double;
+  set zeroOffsetCh4(double value) => map["zeroOffsetCh4"] = value;
+
+  double get zeroOffsetCh5 => map["zeroOffsetCh5"] as double;
+  set zeroOffsetCh5(double value) => map["zeroOffsetCh5"] = value;
+
   bool get monitoringActiveCh1 => map["monitoringActiveCh1"] as bool;
   set monitoringActiveCh1(bool value) => map["monitoringActiveCh1"] = value;
 
@@ -110,6 +170,21 @@ class DeviceNode extends MapObject {
 
   bool get monitoringActiveCh5 => map["monitoringActiveCh5"] as bool;
   set monitoringActiveCh5(bool value) => map["monitoringActiveCh5"] = value;
+
+  bool get ch1MasksAlerts => map["ch1MasksAlerts"] as bool;
+  set ch1MasksAlerts(bool value) => map["ch1MasksAlerts"] = value;
+
+  bool get ch2MasksAlerts => map["ch2MasksAlerts"] as bool;
+  set ch2MasksAlerts(bool value) => map["ch2MasksAlerts"] = value;
+
+  bool get ch3MasksAlerts => map["ch3MasksAlerts"] as bool;
+  set ch3MasksAlerts(bool value) => map["ch3MasksAlerts"] = value;
+
+  bool get ch4MasksAlerts => map["ch4MasksAlerts"] as bool;
+  set ch4MasksAlerts(bool value) => map["ch4MasksAlerts"] = value;
+
+  bool get ch5MasksAlerts => map["ch5MasksAlerts"] as bool;
+  set ch5MasksAlerts(bool value) => map["ch5MasksAlerts"] = value;
 
   EventNodeConnection get events {
     if (map['eventSet'] is EventNodeConnection){
@@ -128,7 +203,3 @@ class DeviceNode extends MapObject {
 
   DeviceNode clone() => DeviceNode.fromMap(toJson() as Map<String, dynamic>, true);
 }
-
-
-
-

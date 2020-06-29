@@ -1,12 +1,14 @@
 import 'package:datav8/blocs/models/devices/ChannelNumber.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:datav8/components/charts/LineChart.dart';
+import 'package:datav8/screens/devices/ChannelsFloatingButtons.dart';
 import 'package:flutter/material.dart';
 
 class ChannelDetailsScreen extends StatefulWidget {
-  final ChannelCardConfiguration item;
+  final ChannelCardConfiguration currentChannelConfiguration;
+  final List<ChannelCardConfiguration> otherChannelsConfigurations;
 
-  ChannelDetailsScreen({Key key, this.item}) : super(key: key);
+  ChannelDetailsScreen({Key key, this.currentChannelConfiguration, this.otherChannelsConfigurations}) : super(key: key);
 
   _ChannelDetailsScreenState createState() => _ChannelDetailsScreenState();
 }
@@ -22,7 +24,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
   @override
   void initState() {
     enabledChannels = [false, false, false, false, false];
-    enabledChannels[ChannelNumber.values.indexOf(widget.item.channel)] = true;
+    enabledChannels[ChannelNumber.values.indexOf(widget.currentChannelConfiguration.channel)] = true;
 
     super.initState();
   }
@@ -30,9 +32,10 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     MediaQueryData query = MediaQuery.of(context);
-    BorderSide border = BorderSide(color: Theme.of(context).hintColor, width: 1);
-    TextStyle titleInfoStyle = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11.5);
-    TextStyle valueInfoStyle = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11.5, fontWeight: FontWeight.w800);
+    Color hintColor = Theme.of(context).hintColor;
+    BorderSide border = BorderSide(color: hintColor, width: 1);
+    TextStyle titleInfoStyle = TextStyle(color: hintColor, fontFamily: "Popins", fontSize: 11.5);
+    TextStyle valueInfoStyle = TextStyle(color: hintColor, fontFamily: "Popins", fontSize: 11.5, fontWeight: FontWeight.w800);
     return Scaffold(
       key: _scaffoldKey,
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
@@ -43,12 +46,12 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
         brightness: Brightness.dark,
         elevation: 0.0,
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        title: Text(widget.item.name,
+        title: Text(widget.currentChannelConfiguration.name,
           style: TextStyle(color: Theme.of(context).textSelectionColor),
         ),
         centerTitle: true,
         iconTheme: IconThemeData(
-          color: Theme.of(context).hintColor,
+          color: hintColor,
         ),
       ),
 
@@ -64,7 +67,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
-                      _channelSummaryHeader(),
+                      _channelSummaryHeader(hintColor),
                       SizedBox(height: 35),
                     ]
                   ),
@@ -74,8 +77,8 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                 Container(
                   height: 300,
                   child: LineChart(
-                    events: widget.item.events,
-                    configurations: <ChannelCardConfiguration>[widget.item],
+                    events: widget.currentChannelConfiguration.events,
+                    configurations: <ChannelCardConfiguration>[widget.currentChannelConfiguration],
                     enabledChannels: enabledChannels,
                     verticalDivision: 7
                   ),
@@ -96,7 +99,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("12.6", style: valueInfoStyle),
+                          Text(widget.currentChannelConfiguration.scaleFactor.toStringAsFixed(3), style: valueInfoStyle),
                           Text("SCALE FACTOR", style: titleInfoStyle),
                         ],
                       ),
@@ -108,12 +111,11 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("12.6", style: valueInfoStyle),
+                          Text(widget.currentChannelConfiguration.zeroOffset.toStringAsFixed(3), style: valueInfoStyle),
                           Text("ZERO OFFSET", style: titleInfoStyle),
                         ],
                       ),
                     ),
-
 
                   ],
                 ),
@@ -129,12 +131,11 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("12.6", style: valueInfoStyle),
+                          Text(widget.currentChannelConfiguration.lowerThreshold.toStringAsFixed(3), style: valueInfoStyle),
                           Text("LOWER THRESHOLD", style: titleInfoStyle),
                         ],
                       ),
                     ),
-
 
                     Container(
                       width: query.size.width/2,
@@ -143,28 +144,26 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: <Widget>[
-                          Text("12.6", style: valueInfoStyle),
+                          Text(widget.currentChannelConfiguration.upperThreshold.toStringAsFixed(3), style: valueInfoStyle),
                           Text("UPPER THRESHOLD", style: titleInfoStyle),
                         ],
                       ),
                     ),
-
-
                   ],
-                )
+                ),
                 // -------------------------------------------------------------
-
               ]
             )
           ),
-          _modalBottomSheetChannels()
+
         ]
-      )
+      ),
+      floatingActionButton: ChannelsFloatingButtons(),
     );
   }
 
-  Widget _channelSummaryHeader() {
-    TextStyle style = TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11);
+  Widget _channelSummaryHeader(Color hintColor) {
+    TextStyle style = TextStyle(color: hintColor, fontFamily: "Popins", fontSize: 11);
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: <Widget>[
@@ -172,24 +171,23 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text(widget.item.latestChannelValue, style: TextStyle(color: widget.item.chartColor, fontSize: 33.0, fontFamily: "Sans", fontWeight: FontWeight.w700)),
-            Text("Temperature (°C)", style: style),
-            Text("PT1000", style: style),
-//            Text("Mask    Alert    Monitor", style: style),
+            Text(widget.currentChannelConfiguration.latestChannelValue, style: TextStyle(color: widget.currentChannelConfiguration.statusColor, fontSize: 33.0, fontFamily: "Sans", fontWeight: FontWeight.w700)),
+            Text(widget.currentChannelConfiguration.unit, style: style),
+            Text(widget.currentChannelConfiguration.sensorType.toUpperCase(), style: style),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: <Widget>[
                 Text("Mask", style: style),
                 SizedBox(width: 6.0),
-                _channelOnOffIndicator(Status.NONE),
+                widget.currentChannelConfiguration.maskAlert ? _channelOnOffIndicator(Status.GREEN) : _channelOnOffIndicator(Status.NONE),
                 SizedBox(width: 8.5),
                 Text("Alert", style: style),
                 SizedBox(width: 6.0),
-                _channelOnOffIndicator(Status.GREEN),
+                widget.currentChannelConfiguration.alertState ? _channelOnOffIndicator(Status.RED) : _channelOnOffIndicator(Status.GREEN),
                 SizedBox(width: 8.5),
                 Text("Monitor", style: style),
                 SizedBox(width: 6.0),
-                _channelOnOffIndicator(Status.RED),
+                widget.currentChannelConfiguration.monitoringActive ? _channelOnOffIndicator(Status.GREEN) : _channelOnOffIndicator(Status.NONE),
               ],
             ),
           ],
@@ -198,11 +196,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
-            _channelStatusIndicator("CH1 "),
-            _channelStatusIndicator("CH2"),
-            _channelStatusIndicator("CH3"),
-            _channelStatusIndicator("CH4"),
-            _channelStatusIndicator("CH5"),
+            for(int i = 0; i < enabledChannels.length; ++i ) enabledChannels[i] ? _channelStatusIndicator("CH${i + 1}".padRight(3), widget.otherChannelsConfigurations[i].chartColor) : _channelStatusIndicator("CH${i + 1}", hintColor),
           ],
         ),
       ],
@@ -236,82 +230,18 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> {
         break;
     }
 
-    return Container(height: 15, width: 15, decoration: decoration);
+    return Container(height: 12.5, width: 12.5, decoration: decoration);
   }
 
-  Widget _channelStatusIndicator(String channel){
+  Widget _channelStatusIndicator(String channel, Color color){
     return Row(
       children: <Widget>[
         Padding(
           padding: const EdgeInsets.only(right: 10.0),
-          child: Text(channel, style: TextStyle(color: Theme.of(context).hintColor, fontFamily: "Popins", fontSize: 11)),
+          child: Text(channel, style: TextStyle(color: color, fontFamily: "Popins", fontSize: 11)),
         ),
-        Container(color: Theme.of(context).hintColor, height: 2.5, width: 50, margin: const EdgeInsets.only(bottom: 3))
+        Container(color: color, height: 2.5, width: 50, margin: const EdgeInsets.only(bottom: 3))
       ],
     );
   }
-
-  Widget _channelIndicator(bool status, int channel){
-    return InkWell(
-      onTap: () {
-        if(widget.item.channel.index != channel){
-          setState(() {
-            enabledChannels[channel] = !enabledChannels[channel];
-          });
-        }
-      },
-      child: Column(children: <Widget>[
-        Container(
-          padding: EdgeInsets.only(left: 4),
-          child: Stack(
-            alignment: Alignment.center,
-            children: <Widget>[
-              Container(
-                height: 45.0,
-                width: 45.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    tileMode: TileMode.repeated,
-                    colors: [Color(0xFF15EDED), Color(0xFF029CF5)]
-                  )
-                ),
-              ),
-              Container(
-                height: 38.0,
-                width: 38.0,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(30.0)),
-                  border: Border.all(color: Color(0xFF141C35), width: 1.5),
-                  color: (status) ? Colors.transparent : Theme.of(context).scaffoldBackgroundColor
-                ),
-              )
-            ]
-          ),
-        ),
-
-        Text("CH${channel + 1}", style: TextStyle(fontFamily: "Popins", fontSize: 11.0))
-      ]),
-    );
-  }
-
-  Widget _modalBottomSheetChannels() {
-    return Container(
-      height: 80.0,
-      color: Color(0xFF141C35),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            for(int channel = 0; channel < enabledChannels.length; ++channel) _channelIndicator(enabledChannels[channel], channel)
-          ],
-        ),
-      ),
-    );
-  }
-
 }

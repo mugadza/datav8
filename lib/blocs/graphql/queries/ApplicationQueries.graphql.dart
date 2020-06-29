@@ -66,6 +66,31 @@ class ApplicationQueries {
                 alertStateCh3
                 alertStateCh4
                 alertStateCh5
+                ch1MasksAlerts
+                ch2MasksAlerts
+                ch3MasksAlerts
+                ch4MasksAlerts
+                ch5MasksAlerts
+                unitsCh1
+                unitsCh2
+                unitsCh3
+                unitsCh4
+                unitsCh5
+                zeroOffsetCh1
+                zeroOffsetCh2
+                zeroOffsetCh3
+                zeroOffsetCh4
+                zeroOffsetCh5
+                scaleFactorCh1
+                scaleFactorCh2
+                scaleFactorCh3
+                scaleFactorCh4
+                scaleFactorCh5
+                ch1SensorType
+                ch2SensorType
+                ch3SensorType
+                ch4SensorType
+                ch5SensorType
                 eventSet(first: $nEventCount){
                   edges{
                     node{
@@ -123,6 +148,31 @@ class ApplicationQueries {
             alertStateCh3
             alertStateCh4
             alertStateCh5
+            ch1MasksAlerts
+            ch2MasksAlerts
+            ch3MasksAlerts
+            ch4MasksAlerts
+            ch5MasksAlerts
+            unitsCh1
+            unitsCh2
+            unitsCh3
+            unitsCh4
+            unitsCh5
+            zeroOffsetCh1
+            zeroOffsetCh2
+            zeroOffsetCh3
+            zeroOffsetCh4
+            zeroOffsetCh5
+            scaleFactorCh1
+            scaleFactorCh2
+            scaleFactorCh3
+            scaleFactorCh4
+            scaleFactorCh5
+            ch1SensorType
+            ch2SensorType
+            ch3SensorType
+            ch4SensorType
+            ch5SensorType
             eventSet(first: $nEventCount){
               edges{
                 node{

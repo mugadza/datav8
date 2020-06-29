@@ -4,9 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_sparkline/flutter_sparkline.dart';
 
 class ChannelCard extends StatelessWidget {
-  final ChannelCardConfiguration item;
+  final ChannelCardConfiguration currentChannelConfiguration;
+  final List<ChannelCardConfiguration> otherChannelsConfigurations;
 
-  ChannelCard({@required this.item});
+  ChannelCard({@required this.currentChannelConfiguration, this.otherChannelsConfigurations});
   
   @override
   Widget build(BuildContext context) {
@@ -16,7 +17,7 @@ class ChannelCard extends StatelessWidget {
       child: InkWell(
         onTap: () {
           // -------- Tapping card
-          Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => ChannelDetailsScreen(item: item)));
+          Navigator.of(context).push(PageRouteBuilder(pageBuilder: (_, __, ___) => ChannelDetailsScreen(currentChannelConfiguration: currentChannelConfiguration, otherChannelsConfigurations: otherChannelsConfigurations)));
         },
         child: Container(
           height: 70.0,
@@ -42,7 +43,7 @@ class ChannelCard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     Text(
-                      item.name,
+                      currentChannelConfiguration.name,
                       style: TextStyle(
                         color: Theme.of(context).textSelectionColor,
                         fontFamily: "Popins",
@@ -56,8 +57,8 @@ class ChannelCard extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: <Widget>[
                           Text(
-                            item.latestChannelValue,
-                            style: TextStyle(color: item.chartColor, fontFamily: "Popins", fontSize: 11.0),
+                            currentChannelConfiguration.latestChannelValue,
+                            style: TextStyle(color: currentChannelConfiguration.statusColor, fontFamily: "Popins", fontSize: 11.0),
                           ),
                         ],
                       ),
@@ -70,14 +71,14 @@ class ChannelCard extends StatelessWidget {
                 child: Container(
                   height: 40.0,
                   child: Sparkline(
-                    data: item.data,
+                    data: currentChannelConfiguration.data,
                     lineWidth: 0.3,
                     fillMode: FillMode.below,
-                    lineColor: item.chartColor,
+                    lineColor: currentChannelConfiguration.statusColor,
                     fillGradient: new LinearGradient(
                       begin: Alignment.topCenter,
                       end: Alignment.bottomCenter,
-                      colors: item.chartColorGradient,
+                      colors: currentChannelConfiguration.chartColorGradient,
                     ),
                   ),
                 ),
