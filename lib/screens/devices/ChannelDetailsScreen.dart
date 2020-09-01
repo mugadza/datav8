@@ -171,6 +171,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with Single
                   ],
                 ),
                 // -------------------------------------------------------------
+                SizedBox(height: 90.0),
               ]
             )
           ),
@@ -215,6 +216,7 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with Single
         Column(
           crossAxisAlignment: CrossAxisAlignment.end,
           children: <Widget>[
+            // TODO - if the channel is disabled in the server, this asserts index out of range. BUG
             for(int i = 0; i < widget._enabledChannels.length; ++i ) widget._enabledChannels[i] ? _channelStatusIndicator("CH${i + 1}".padRight(3), widget.otherChannelsConfigurations[i].chartColor) : _channelStatusIndicator("CH${i + 1}", hintColor),
           ],
         ),

@@ -73,6 +73,8 @@ class _EventListViewState extends State<EventListView> {
   Widget listPriceGainers(double reading, EventNode eventNode, BuildContext ctx) {
     DateFormat timeFormat = DateFormat.Hm();
     DateFormat dateFormat = DateFormat.yMMMd();
+    String readingError = (reading > widget.channelCardConfiguration.upperThreshold) ? (reading - widget.channelCardConfiguration.upperThreshold).toStringAsFixed(2) :
+    (reading < widget.channelCardConfiguration.lowerThreshold) ? (reading - widget.channelCardConfiguration.lowerThreshold).toStringAsFixed(2) : "0.00";
     return Padding(
       padding: const EdgeInsets.only(left: 12.0, top: 20.0),
       child: InkWell(
@@ -107,8 +109,8 @@ class _EventListViewState extends State<EventListView> {
               child: Container(
                 width: 80.0,
                 height: 35.0,
-                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(2.0)), color: Color(0xFF00C087)),
-                child: Center(child: Text("Error", style: TextStyle(fontSize: 13, color: Colors.white)))
+                decoration: BoxDecoration(borderRadius: BorderRadius.all(Radius.circular(2.0)), color: (double.parse(readingError) != 0.0) ? Colors.deepOrangeAccent : Color(0xFF00C087)),
+                child: Center(child: Text(readingError, style: TextStyle(fontSize: 13, color: Colors.white)))
               ),
             )
           ],

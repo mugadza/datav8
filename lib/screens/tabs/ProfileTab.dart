@@ -106,7 +106,7 @@ class _ProfileTabState extends State<ProfileTab> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(100.0)),
             border: Border.all(color: Colors.white, width: 2.0),
-            image: DecorationImage(image: (widget.user.avatar.url == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.user.avatar.url), fit: BoxFit.cover)
+            image: DecorationImage(image: (widget.user.avatar == null) ? AssetImage("assets/image/placeholder255x255.png") : NetworkImage(widget.user.avatar.url), fit: BoxFit.cover)
           ),
         ),
         SizedBox(width: 15.0),
