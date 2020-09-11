@@ -20,7 +20,28 @@ class EventNode extends MapObject {
 
   DateTime get deviceTimeDate => (map["deviceTimeDate"] is DateTime) ? map["deviceTimeDate"]:DateTime.parse(map["deviceTimeDate"] as String);
   set deviceTimeDate(DateTime value) => map["deviceTimeDate"] = value;
-  
+
+  double getChannelValue(ChannelNumber channel){
+    switch(channel){
+      case ChannelNumber.CHANNEL1:
+        return ch1;
+        break;
+      case ChannelNumber.CHANNEL2:
+        return ch2;
+        break;
+      case ChannelNumber.CHANNEL3:
+        return ch3;
+        break;
+      case ChannelNumber.CHANNEL4:
+        return ch4;
+        break;
+      case ChannelNumber.CHANNEL5:
+        return ch5;
+        break;
+    }
+    return 0.0; // to make the compiler happy
+  }
+
   double getMinimum(bool ch1Enabled, bool ch2Enabled, bool ch3Enabled, bool ch4Enabled, bool ch5Enabled){
     List<double> items = [];
 

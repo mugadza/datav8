@@ -1,7 +1,11 @@
 import 'package:datav8/blocs/models/devices/ChannelNumber.dart';
+import 'package:datav8/blocs/models/helpers/event/EventNode.dart';
 import 'package:datav8/components/card/ChannelCardConfiguration.dart';
 import 'package:datav8/components/charts/LineChart.dart';
 import 'package:datav8/components/styles.dart';
+
+import 'package:charts_flutter/flutter.dart' as charts;
+
 import 'package:flutter/material.dart';
 
 class ChannelDetailsScreen extends StatefulWidget {
@@ -14,7 +18,7 @@ class ChannelDetailsScreen extends StatefulWidget {
       : _enabledChannels = [false, false, false, false, false],
         super(key: key);
 
-  _ChannelDetailsScreenState createState() => _ChannelDetailsScreenState();
+  _ChannelDetailsScreenState createState() => _ChannelDetailsScreenState.withSampleData();
 }
 
 enum Status{
@@ -28,6 +32,13 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with Single
   Animation<Color> _animateColor;
   Animation<double> _translateButton;
   Curve _curve = Curves.easeOut;
+  final List<charts.Series> eventSeriesList;
+
+  _ChannelDetailsScreenState(this.eventSeriesList);
+
+  factory _ChannelDetailsScreenState.withChannelData(ChannelCardConfiguration channelConfiguration) {
+    return  _ChannelDetailsScreenState(_createChannelDataSeries(channelConfiguration));
+  }
 
   @override
   void initState() {
@@ -95,12 +106,15 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with Single
                 // -------------------------------------------------------------
                 Container(
                   height: 300,
-                  child: LineChart(
-                    events: widget.currentChannelConfiguration.events,
-                    configurations: widget.otherChannelsConfigurations,
-                    enabledChannels: widget._enabledChannels,
-                    verticalDivision: 7
+                  child: charts.TimeSeriesChart(
+                    eventSeriesList,
+                    defaultRenderer: new charts.LineRendererConfig(),
+                    customSeriesRenderers: [
+                      charts.PointRendererConfig(customRendererId: 'customPoint')
+                    ],
+                    dateTimeFactory: const charts.LocalDateTimeFactory(),
                   ),
+
                 ),
                 // -------------------------------------------------------------
 
@@ -222,6 +236,26 @@ class _ChannelDetailsScreenState extends State<ChannelDetailsScreen> with Single
         ),
       ],
     );
+  }
+
+  static List<charts.Series<EventNode, DateTime>> _createChannelDataSeries(List<ChannelCardConfiguration> channelConfigurationList, List<bool> enabledChannels) {
+    List<charts.Series<EventNode, DateTime>> data = [];
+
+    for(ChannelCardConfiguration channelConfiguration in channelConfigurationList){
+      if ( enabledChannels[ChannelNumber.values.indexOf(channelConfiguration.channel)] ){
+        data.add(
+          charts.Series<EventNode, DateTime>(
+            id: channelConfiguration.name,
+            colorFn: (_, __) => charts.MaterialPalette.blue.shadeDefault,
+            domainFn: (EventNode events, _) => events.deviceTimeDate,
+            measureFn: (EventNode events, _) => events.getChannelValue(channelConfiguration.channel),
+            data: channelConfiguration.events,
+          )
+        );
+      }
+    }
+
+    return data;
   }
 
   Widget _channelOnOffIndicator(Status status){
